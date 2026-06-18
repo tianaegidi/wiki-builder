@@ -1,0 +1,422 @@
+<ac:confluence xmlns:ac="https://jira.atlassian.com/wiki" xmlns:ri="http://atlassian.com/resource/identifier">
+
+<ac:structured-macro ac:name="style">
+  <ac:plain-text-body><![CDATA[
+#grad1{ background: rgb(28,94,152); background: linear-gradient(145deg, rgba(28,94,152) 0%, rgba(32,109,177) 50%, rgba(40,133,215) 100%); box-sizing: border-box; padding: 1em;}
+.underline { border-bottom: 2px solid #FBAD41; padding: 1em; }
+]]></ac:plain-text-body>
+</ac:structured-macro>
+<div id="grad1"><h1><span style="color:var(--ds-text-inverse,#ffffff);">Threat-focused Defense</span></h1></div>
+
+<ac:structured-macro ac:name="panel">
+  <ac:parameter ac:name="borderColor">#1c5e98</ac:parameter>
+  <ac:parameter ac:name="borderWidth">2</ac:parameter>
+  <ac:parameter ac:name="title">Welcome!</ac:parameter>
+  <ac:parameter ac:name="titleBGColor">#1c5e98</ac:parameter>
+  <ac:parameter ac:name="titleColor">#FFFFFF</ac:parameter>
+  <ac:rich-text-body>
+    <p><strong>Security Vision</strong></p>
+    <p>Welcome to the central hub for the Threat Focused Controls/Defense Program. All metrics and insights are automated and updated in real time to ensure total accuracy. Our mission is to reduce known exposure <span style="color:var(--ds-text,#172b4d);">to specific security threats (e.g., Insider risk, physical access to our hardware/data centers, etc) affecting Cloudflare.</span></p>
+  </ac:rich-text-body>
+</ac:structured-macro>
+<p>
+  <ac:structured-macro ac:name="ui-button">
+    <ac:parameter ac:name="color">rgb(57,79,206)</ac:parameter>
+    <ac:parameter ac:name="link">https://wiki.cfdata.org/spaces/INFOSEC/pages/1266689497/Threat+Assessment+Program+-+Frequently+Asked+Questions+FAQ</ac:parameter>
+    <ac:parameter ac:name="title">Threat Assessment Program</ac:parameter>
+    <ac:parameter ac:name="textColor">#FFFFFF</ac:parameter>
+    <ac:rich-text-body>Threat Assessment Program</ac:rich-text-body>
+  </ac:structured-macro>
+  ← Click here to learn more about how to identify and address potential security threats.
+</p>
+
+<ac:structured-macro ac:name="panel">
+  <ac:parameter ac:name="borderColor">#1c5e98</ac:parameter>
+  <ac:parameter ac:name="borderWidth">2</ac:parameter>
+  <ac:rich-text-body>
+    <h4><strong><ac:emoticon ac:name="notebook_with_decorative_cover"/> Resources / Updates</strong></h4>
+    <ac:structured-macro ac:name="info">
+      <ac:parameter ac:name="title">Initial Five Threat Models</ac:parameter>
+      <ac:rich-text-body>
+        <p>We are currently prioritizing our top five threat models, with plans to expand our scope and roll out additional models across Q3 and Q4. Please use the Jira query links below to view the active work for these initial five target models.</p>
+      </ac:rich-text-body>
+    </ac:structured-macro>
+    <ac:structured-macro ac:name="ui-tabs" ac:schema-version="1" ac:macro-id="c585e4a9-5bf4-4ba8-b8be-a1e277f1392c">
+      <ac:rich-text-body>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="c2951f2e-d87b-4a88-afb2-5ecbc8eb8e44">
+          <ac:parameter ac:name="title">Program Health</ac:parameter>
+          <ac:rich-text-body>
+            <ac:structured-macro ac:name="panel">
+              <ac:parameter ac:name="title">Threat Models</ac:parameter>
+              <ac:rich-text-body>
+                <h2 style="text-align: left;">🧩 Q1 Threat-Focused Defense Scope</h2>
+                <ol>
+                  <li>Compromised Server
+                    <ol>
+                      <li><p><strong><a href="https://jira.cfdata.org/brose/GRC-20922?jql=project%20%3D%20GRC%20AND%20labels%20%3D%20ThreatFocusedControl%20and%20labels%20in%20(CompromisedServer)">Jira Query Link</a></strong></p>
+                        <ul>
+                          <li><strong>Scope:</strong> Edge server boot validation, runtime integrity, anomalous behaviour detection</li>
+                          <li><strong>Key Deliverables:</strong> Secure boot rollout, attestation service, incident response playbook</li>
+                          <li><strong>Current Status:</strong> Live count from Jira</li>
+                          <li><strong>Next Milestone:</strong> Complete secure boot validation</li>
+                        </ul>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>Malicious Insider Risk
+                    <ol>
+                      <li><strong><a href="https://jira.cfdata.org/isses/?jql=labels%20%3D%20InsiderThreat%20and%20labels%20%3D%20ThreatFocusedControl%20">Jira Query Link</a></strong>
+                        <ol>
+                          <li><strong>Scope:</strong> Edge server boot validation, runtime integrity, anomalous behaviour detection</li>
+                          <li><strong>Key Deliverables:</strong> Secure boot rollout, attestation service, incident response playbook</li>
+                          <li><strong>Current Status:</strong> Live count from Jira</li>
+                          <li><strong>Next Milestone:</strong> Complete secure boot validation</li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>Compromise or Physical Tampering of Hardware
+                    <ol>
+                      <li><strong><a href="https://jira.cfdata.org/isses/?jql=labels%20%3D%20PhysicalTampering">Jira Query Link</a></strong>
+                        <ol>
+                          <li><strong>Scope:</strong> Edge server boot validation, runtime integrity, anomalous behaviour detection</li>
+                          <li><strong>Key Deliverables:</strong> Secure boot rollout, attestation service, incident response playbook</li>
+                          <li><strong>Current Status:</strong> Live count from Jira</li>
+                          <li><strong>Next Milestone:</strong> Complete secure boot validation</li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>B2B SaaS Integration &amp; Supply Chain Exploitation
+                    <ol>
+                      <li><strong><a href="https://jira.cfdata.org/brose/GRC-20922?jql=project%20%3D%20GRC%20AND%20labels%20%3D%20ThreatFocusedControl%20and%20labels%20in%20(CompromisedServer)">Jira Query Link</a></strong>
+                        <ol>
+                          <li><strong>Scope:</strong> Edge server boot validation, runtime integrity, anomalous behaviour detection</li>
+                          <li><strong>Key Deliverables:</strong> Secure boot rollout, attestation service, incident response playbook</li>
+                          <li><strong>Current Status:</strong> Live count from Jira</li>
+                          <li><strong>Next Milestone:</strong> Complete secure boot validation</li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                  <li>Software Supply Chain
+                    <ol>
+                      <li><strong><a href="https://jira.cfdata.org/brose/GRC-20255?jql=project%20%3D%20GRC%20AND%20labels%20%3D%20ThreatFocusedControl%20and%20labels%20in%20(SoftwareSupplyChain)">Jira Query Link</a></strong>
+                        <ol>
+                          <li><strong>Scope:</strong> Edge server boot validation, runtime integrity, anomalous behaviour detection</li>
+                          <li><strong>Key Deliverables:</strong> Secure boot rollout, attestation service, incident response playbook</li>
+                          <li><strong>Current Status:</strong> Live count from Jira</li>
+                          <li><strong>Next Milestone:</strong> Complete secure boot validation</li>
+                        </ol>
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </ac:rich-text-body>
+            </ac:structured-macro>
+            <ac:structured-macro ac:name="panel">
+              <ac:parameter ac:name="borderColor">#1c5e98</ac:parameter>
+              <ac:parameter ac:name="title">Progress Panel</ac:parameter>
+              <ac:parameter ac:name="titleBGColor">#1c5e98</ac:parameter>
+              <ac:parameter ac:name="titleColor">#FFFFFF</ac:parameter>
+              <ac:rich-text-body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <ac:structured-macro ac:name="panel">
+                          <ac:parameter ac:name="backgroundColor">#FFFFFF</ac:parameter>
+                          <ac:parameter ac:name="borderColor">#008000</ac:parameter>
+                          <ac:parameter ac:name="borderWidth">3</ac:parameter>
+                          <ac:rich-text-body>
+                            <h3><strong>Overall Controls Done / Total</strong></h3>
+                            <h3>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status in (Done, Closed, Cancelled)</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Done / </strong>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Total</strong>
+                            </h3>
+                            <p><strong><span style="color:var(--ds-background-accent-gray-bolder,#626f86);">Target: 70% key controls</span></strong></p>
+                          </ac:rich-text-body>
+                        </ac:structured-macro>
+                      </td>
+                      <td>
+                        <ac:structured-macro ac:name="panel">
+                          <ac:parameter ac:name="backgroundColor">#FFFFFF</ac:parameter>
+                          <ac:parameter ac:name="borderColor">#87CEFA</ac:parameter>
+                          <ac:parameter ac:name="borderWidth">3</ac:parameter>
+                          <ac:rich-text-body>
+                            <h3><strong>Throughput</strong></h3>
+                            <h3>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status in (Done, Closed, Cancelled)</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Done / </strong>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Total</strong>
+                            </h3>
+                            <p><strong><span style="color:var(--ds-background-accent-gray-bolder,#626f86);">Target: 70% key controls</span></strong></p>
+                          </ac:rich-text-body>
+                        </ac:structured-macro>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <ac:structured-macro ac:name="panel">
+                          <ac:parameter ac:name="backgroundColor">#FFFFFF</ac:parameter>
+                          <ac:parameter ac:name="borderColor">#FFC000</ac:parameter>
+                          <ac:parameter ac:name="borderWidth">3</ac:parameter>
+                          <ac:rich-text-body>
+                            <h3><strong>Unassigned</strong></h3>
+                            <h3>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status in (Done, Closed, Cancelled)</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Done / </strong>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Total</strong>
+                            </h3>
+                            <p><strong><span style="color:var(--ds-background-accent-gray-bolder,#626f86);">Target: 70% key controls</span></strong></p>
+                          </ac:rich-text-body>
+                        </ac:structured-macro>
+                      </td>
+                      <td>
+                        <ac:structured-macro ac:name="panel">
+                          <ac:parameter ac:name="backgroundColor">#FFFFFF</ac:parameter>
+                          <ac:parameter ac:name="borderColor">#FF0000</ac:parameter>
+                          <ac:parameter ac:name="borderWidth">3</ac:parameter>
+                          <ac:rich-text-body>
+                            <h3><strong>Blocked / On Hold</strong></h3>
+                            <h3>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status in (Done, Closed, Cancelled)</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Done / </strong>
+                              <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545">
+                                <ac:parameter ac:name="count">true</ac:parameter>
+                                <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl</ac:parameter>
+                                <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+                              </ac:structured-macro>
+                              <strong> Total</strong>
+                            </h3>
+                            <p><strong><span style="color:var(--ds-background-accent-gray-bolder,#626f86);">Target: 70% key controls</span></strong></p>
+                          </ac:rich-text-body>
+                        </ac:structured-macro>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ac:rich-text-body>
+            </ac:structured-macro>
+            <p><br/></p>
+            <ac:structured-macro ac:name="panel">
+              <ac:parameter ac:name="title">Status Distribution</ac:parameter>
+              <ac:rich-text-body>
+                <ac:structured-macro ac:name="section">
+                  <ac:rich-text-body>
+                    <ac:structured-macro ac:name="column">
+                      <ac:rich-text-body>
+                        <h2>📊 Threat Model Breakdown</h2>
+                        <table>
+                          <tbody>
+                            <tr><th>Threat Model</th><th>Backlog</th><th>In Progress</th><th>Done</th><th>Blocked</th></tr>
+                            <tr>
+                              <td>Compromised Server</td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (CompromisedServer) AND status = backlog</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (CompromisedServer) AND status = "In Progress"</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (CompromisedServer) AND status = Done</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (CompromisedServer) AND status = Blocked</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                            </tr>
+                            <tr>
+                              <td>Physical Tampering</td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (PhysicalTampering) AND status = backlog</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (PhysicalTampering) AND status = "In Progress"</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (PhysicalTampering) AND status = Done</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (PhysicalTampering) AND status = Blocked</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                            </tr>
+                            <tr>
+                              <td>B2B SaaS &amp; Supply Chain</td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (B2BSaaSIntegration) AND status = backlog</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (B2BSaaSIntegration) AND status = "In Progress"</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (B2BSaaSIntegration) AND status = Done</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (B2BSaaSIntegration) AND status = Blocked</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                            </tr>
+                            <tr>
+                              <td>Software Supply Chain</td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (SoftwareSupplyChain) AND status = backlog</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (SoftwareSupplyChain) AND status = "In Progress"</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (SoftwareSupplyChain) AND status = Done</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                              <td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl and labels in (SoftwareSupplyChain) AND status = Blocked</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </ac:rich-text-body>
+                    </ac:structured-macro>
+                  </ac:rich-text-body>
+                </ac:structured-macro>
+                <h2>Status Distribution</h2>
+                <table>
+                  <tbody>
+                    <tr><th>Status</th><th>Ticket Count</th></tr>
+                    <tr><td>Backlog / On Hold</td><td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status in ("Backlog","On Hold")</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td></tr>
+                    <tr><td>In Progress</td><td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status = "In Progress"</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td></tr>
+                    <tr><td>Done</td><td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status = Done</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td></tr>
+                    <tr><td>Blocked</td><td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status = Blocked</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td></tr>
+                    <tr><td>Cancelled</td><td><p><ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="4c1d8cf2-d11a-402e-90d6-54ddb0ce6545"><ac:parameter ac:name="count">true</ac:parameter><ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status = Cancelled</ac:parameter><ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+              <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter></ac:structured-macro></p></td></tr>
+                  </tbody>
+                </table>
+              </ac:rich-text-body>
+            </ac:structured-macro>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="72501671-c391-4892-ba39-960ca2ceea78">
+          <ac:parameter ac:name="title">High Level Timeline</ac:parameter>
+          <ac:rich-text-body>
+            <h2>High Level Timeline</h2>
+            <table>
+              <tbody>
+                <tr><th>Threat Model</th><th>Q1 2026</th><th>Q2 2026</th><th>Q3 2027</th><th>Q4 2027</th></tr>
+                <tr><td>Compromise of Core/Edge Infrastructure</td><td><ac:structured-macro ac:name="status"><ac:parameter ac:name="colour">Green</ac:parameter><ac:parameter ac:name="title">ON TRACK</ac:parameter></ac:structured-macro></td><td><ac:structured-macro ac:name="status"><ac:parameter ac:name="colour">Blue</ac:parameter><ac:parameter ac:name="title">IN PROGRESS</ac:parameter></ac:structured-macro></td><td><ac:structured-macro ac:name="status"><ac:parameter ac:name="colour">Grey</ac:parameter><ac:parameter ac:name="title">BACKLOG</ac:parameter></ac:structured-macro></td><td><ac:structured-macro ac:name="status"><ac:parameter ac:name="colour">Grey</ac:parameter><ac:parameter ac:name="title">NOT STARTED</ac:parameter></ac:structured-macro></td></tr>
+                <tr><td>Malicious Insider Risk</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Compromise or Physical Tampering of Hardware</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>B2B SaaS Integration &amp; Supply Chain Exploitation</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>Software Supply Chain</td><td></td><td></td><td></td><td></td></tr>
+              </tbody>
+            </table>
+            <ac:structured-macro ac:name="roadmap">
+              <ac:parameter ac:name="source">manual</ac:parameter>
+              <ac:parameter ac:name="title">Security Team Threat Focused Controls Roadmap</ac:parameter>
+              <ac:parameter ac:name="timeframe">month</ac:parameter>
+              <ac:parameter ac:name="startDate">2025-11-01</ac:parameter>
+              <ac:parameter ac:name="endDate">2026-10-31</ac:parameter>
+            </ac:structured-macro>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="2407f2dd-53d7-4beb-b1e9-02a91f58e9c5">
+          <ac:parameter ac:name="title">Open Tickets by View</ac:parameter>
+          <ac:rich-text-body>
+            <h2>Open Tickets by View</h2>
+            <ac:structured-macro ac:name="auitabs">
+              <ac:rich-text-body>
+                <ac:structured-macro ac:name="auitabspage">
+                  <ac:parameter ac:name="title">All Tickets</ac:parameter>
+                  <ac:rich-text-body>
+                    <ac:structured-macro ac:name="table-filter">
+                      <ac:rich-text-body>
+                        <table>
+                          <tbody>
+                            <tr><th>Key</th><th>Summary</th><th>Team Members</th><th>Assignee</th><th>Owner</th><th>Status</th><th>Due</th><th>Current Status</th><th>Key Result</th><th>Teams</th><th>Next Steps</th><th>Issues &amp; Risks</th><th>Stoplight Status</th><th>Deliverables</th><th>Start Date</th><th>Labels</th><th>Business Owner</th></tr>
+                          </tbody>
+                        </table>
+                      </ac:rich-text-body>
+                    </ac:structured-macro>
+                  </ac:rich-text-body>
+                </ac:structured-macro>
+                <ac:structured-macro ac:name="auitabspage">
+                  <ac:parameter ac:name="title">By Threat Model</ac:parameter>
+                  <ac:rich-text-body>
+                    <ac:structured-macro ac:name="table-filter">
+                      <ac:rich-text-body>
+                        <table>
+                          <tbody>
+                            <tr><th>Key</th><th>Summary</th><th>Team Members</th><th>Assignee</th><th>Owner</th><th>Status</th><th>Due</th><th>Current Status</th><th>Key Result</th><th>Teams</th><th>Next Steps</th><th>Issues &amp; Risks</th><th>Stoplight Status</th><th>Deliverables</th><th>Start Date</th><th>Labels</th><th>Business Owner</th></tr>
+                          </tbody>
+                        </table>
+                      </ac:rich-text-body>
+                    </ac:structured-macro>
+                  </ac:rich-text-body>
+                </ac:structured-macro>
+                <ac:structured-macro ac:name="auitabspage">
+                  <ac:parameter ac:name="title">By Business Owner</ac:parameter>
+                  <ac:rich-text-body>
+                    <ac:structured-macro ac:name="table-filter">
+                      <ac:rich-text-body>
+                        <table>
+                          <tbody>
+                            <tr><th>Key</th><th>Summary</th><th>Team Members</th><th>Assignee</th><th>Owner</th><th>Status</th><th>Due</th><th>Current Status</th><th>Key Result</th><th>Teams</th><th>Next Steps</th><th>Issues &amp; Risks</th><th>Stoplight Status</th><th>Deliverables</th><th>Start Date</th><th>Labels</th><th>Business Owner</th></tr>
+                          </tbody>
+                        </table>
+                      </ac:rich-text-body>
+                    </ac:structured-macro>
+                  </ac:rich-text-body>
+                </ac:structured-macro>
+              </ac:rich-text-body>
+            </ac:structured-macro>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="840c22c4-93b5-46de-a748-c7a86e4161d2">
+          <ac:parameter ac:name="title">Ticket Handling Handbook</ac:parameter>
+          <ac:rich-text-body>
+            <h2>📖 Ticket Handling Handbook</h2>
+            <p><ac:structured-macro ac:name="status"><ac:parameter ac:name="colour">Blue</ac:parameter><ac:parameter ac:name="title">In Progress</ac:parameter></ac:structured-macro></p>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="0fefba87-f784-4af0-99a3-98493bb6b564">
+          <ac:parameter ac:name="title">Milestones</ac:parameter>
+          <ac:rich-text-body>
+            <h2>Milestones</h2>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+        <ac:structured-macro ac:name="ui-tab" ac:schema-version="1" ac:macro-id="bd4908ba-3889-4e9c-baae-3194f68680af">
+          <ac:parameter ac:name="title">Resources</ac:parameter>
+          <ac:rich-text-body>
+            <h2>Resources</h2>
+          </ac:rich-text-body>
+        </ac:structured-macro>
+      </ac:rich-text-body>
+    </ac:structured-macro>
+  </ac:rich-text-body>
+</ac:structured-macro>
+
+</ac:confluence>
