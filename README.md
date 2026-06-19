@@ -1,9 +1,9 @@
 ---
-name: wwiki-builder
+name: wiki-builder
 title: All-in-One Wiki Page Creator, Editor & Designer
 description: >-
   A portable OpenCode skill that creates, edits, and designs Confluence wiki pages
-  on wwiki.cfdata.org with live Jira macros, panels, status lozenges, tabs, roadmaps,
+  on wiki.cfdata.org with live Jira macros, panels, status lozenges, tabs, roadmaps,
   and table filters — all in clean, editable Storage Format.
 kind: skill
 metadata:
@@ -22,7 +22,7 @@ references:
 # All-in-One Wiki Page Creator, Editor & Designer
 
 A portable OpenCode skill that builds, edits, and designs Confluence wiki pages on
-**wwiki.cfdata.org**. Creates pages with live Jira data, polished UI (gradient headers,
+**wiki.cfdata.org**. Creates pages with live Jira data, polished UI (gradient headers,
 color-coded panels, tabs, status lozenges), and Stiltsoft macros — all in clean
 **Storage Format** that stays editable (no locked editors).
 
@@ -81,12 +81,12 @@ will discover the skill automatically.
 
 ## Prerequisites
 
-1. **Script**: Download `wwikigen-generic.sh` to your home directory and make it executable:
+1. **Script**: Download `wikigen-generic.sh` to your home directory and make it executable:
    ```sh
    chmod +x ~/wikigen-generic.sh
    ```
 
-2. **Cloudflared token**: Generate a short-lived token for wwiki.cfdata.org:
+2. **Cloudflared token**: Generate a short-lived token for wiki.cfdata.org:
    ```sh
    cloudflared access login https://wiki.cfdata.org/
    ```
@@ -95,7 +95,7 @@ will discover the skill automatically.
 
 ## Usage
 
-Once installed, the skill auto-triggers when you mention wwiki.cfdata.org, Confluence,
+Once installed, the skill auto-triggers when you mention wiki.cfdata.org, Confluence,
 dashboards, or ask to create/edit wiki pages.
 
 ### Create a page
@@ -130,9 +130,7 @@ https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824
 
 | Page | What it demonstrates |
 |---|---|
-| [Threat-focused Defense (Revamped)](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424148786) | Landing page + tabs + 2x2 dashboard + roadmap + milestones |
-| [TFD Program (recreated v3)](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424145227) | Full page replication with working Jira macros |
-| [Ticket Handling Handbook tab](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824#tab-Ticket+Handling+Handbook) | Handbook pattern: roles, workflows, escalation paths, DoD |
+| [Ticket Handling Handbook](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824#tab-Ticket+Handling+Handbook) | Handbook pattern: roles, workflows, escalation paths, DoD, label reference, weekly cadence |
 
 ## Key lessons
 
