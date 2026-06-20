@@ -425,6 +425,21 @@ The hub page (ID: `1424133824`) is the program's main landing page. It must stay
 6. **Ticket Handling Handbook** — roles, workflows, escalation, DoD, labels, cadence
 7. **Resources** — links to all program resources
 
+### Progress Panel Design (DO NOT CHANGE SIZING)
+The 2x2 grid in the Progress Panel has been finalized. When editing these boxes:
+- **Keep the exact same panel structure** — same border colors, border widths (3), bg colors
+- **Keep the exact same spacing** — `padding-top: 15px` on lozenge, `margin-top: 30px; margin-bottom: 30px` on percentage, `margin-bottom: 20px` on counts, `margin-bottom: 15px` on target
+- **Keep the same font sizes** — 48px for percentage, 14px for counts, 10px for last-calculated
+- **Keep the same layout** — status lozenge → big percentage → counts text → target → last calculated
+- Only update the percentage value, JQL queries, and last-calculated date
+
+| Position | Border | BG | Text Color | Metric |
+|----------|--------|----|------------|--------|
+| Top-left | `#008000` | `#F0FFF0` | `#008000` | Completion Rate |
+| Top-right | `#87CEFA` | `#F0F8FF` | `#1c5e98` | P1 Uncompleted |
+| Bottom-left | `#FFC000` | `#FFFDE7` | `#B8860B` | Unassigned |
+| Bottom-right | `#FF0000` | `#FFF0F0` | `#CC0000` | Blocked |
+
 ### Hub Page Sync Triggers
 
 | Trigger | What to Update on Hub |
