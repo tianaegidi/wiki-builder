@@ -52,8 +52,23 @@ labels = ThreatFocusedControl and status not in (Done, Cancelled)
 ```
 
 ## Threat Model Labels
+
+### Wave 1 — Initial Five (Q1–Q2)
 - `CompromisedServer`
 - `InsiderThreat`
 - `PhysicalTampering`
 - `B2BSaaSIntegration`
 - `SoftwareSupplyChain`
+
+### Wave 2 — Expansion (Q3–Q4)
+- `UnauthorizedAccessCustomerData`
+- `CustomerZero`
+- `AISecurity`
+
+## Status Lozenge Logic
+
+| Completion Rate | Blocked > 3 days | Unassigned > 5 | Lozenge |
+|----------------|-------------------|-----------------|---------|
+| >= 70% | No | No | Green (ON TRACK) |
+| 40-69% | Yes | Yes | Yellow (AT RISK) |
+| < 40% | Yes | Yes | Red (OFF TRACK) |

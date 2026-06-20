@@ -1,10 +1,12 @@
 ---
 name: wiki-builder
-title: All-in-One Wiki Page Creator, Editor & Designer
+title: All-in-One Program Wiki Builder
 description: >-
-  A portable OpenCode skill that creates, edits, and designs Confluence wiki pages
-  on wiki.cfdata.org with live Jira macros, panels, status lozenges, tabs, roadmaps,
-  and table filters — all in clean, editable Storage Format.
+  A portable OpenCode skill that manages the full lifecycle of a security program's
+  Confluence presence on wiki.cfdata.org. Creates, edits, and revises wiki pages with
+  live Jira macros, panels, tabs, and roadmaps. Generates weekly agendas, status updates,
+  and executive summaries. Maintains a program hub page that stays in sync with child pages.
+  Tracks decisions and meeting notes in a decision log.
 kind: skill
 metadata:
   team: security-pmo
@@ -16,15 +18,18 @@ references:
   - SKILL.md
   - references/jira-reference.md
   - references/page-template.xml
+  - references/agenda-templates.md
+  - references/status-update-templates.md
+  - references/decision-log-template.md
+  - references/hub-page-pattern.md
   - scripts/update-handbook.py
 ---
 
-# All-in-One Wiki Page Creator, Editor & Designer
+# All-in-One Program Wiki Builder
 
-A portable OpenCode skill that builds, edits, and designs Confluence wiki pages on
-**wiki.cfdata.org**. Creates pages with live Jira data, polished UI (gradient headers,
-color-coded panels, tabs, status lozenges), and Stiltsoft macros — all in clean
-**Storage Format** that stays editable (no locked editors).
+A portable OpenCode skill that manages the full lifecycle of a security program's Confluence
+presence on **wiki.cfdata.org**. Handles page creation, editing, weekly agendas, status updates,
+hub page sync, and decision log tracking — all in clean **Storage Format** that stays editable.
 
 > **Repo:** `github.com/tianaegidi/wiki-builder` · **Owner:** Tiana Egidi · **Status:** active
 
@@ -34,27 +39,32 @@ color-coded panels, tabs, status lozenges), and Stiltsoft macros — all in clea
 |---|---|
 | **Create pages** | Build new wiki pages from scratch with any combination of macros |
 | **Edit pages** | Update specific sections/tabs of existing pages without touching the rest |
+| **Revise pages** | Reorganize content, add wave separators, update tables and panels |
 | **Replicate pages** | Fetch an existing page, extract its macros/queries, rebuild it cleanly |
-| **Design UI** | Apply proven layout patterns (landing pages, dashboards, handbooks, timelines) |
+| **Generate agendas** | Weekly sync, quarterly review, and threat model review agendas with live Jira metrics |
+| **Publish status updates** | Weekly status with trend tracking, monthly executive summaries |
+| **Sync hub page** | Auto-update the hub page's Latest Status panel and Quick Links when child pages change |
+| **Track decisions** | Immutable decision log with status lozenges, meeting notes archive |
+| **Design UI** | 8 proven layout patterns (landing pages, dashboards, handbooks, agendas, decision logs) |
 | **Dynamic data** | Jira count macros pull live ticket counts — no manual updates needed |
 
 ## Macros supported
 
 - **Jira Issues Count** — live ticket counts with JQL queries
 - **Panel** — colored bordered containers with optional headers
-- **Status Lozange** — Green/Blue/Yellow/Red/Grey status badges
+- **Status Lozenge** — Green/Blue/Yellow/Red/Grey status badges
 - **Info** — contextual info boxes
 - **UI Button** — styled buttons linking to external pages
 - **UI Tabs** — tabbed content sections
 - **Style (CSS)** — custom CSS (gradient headers, etc.)
 - **Section/Column** — multi-column layouts
-- **Expand** — collapsible sections
+- **Expand** — collapsible sections (used for meeting notes archive)
 - **Table Filter** (Stiltsoft) — filterable data tables
 - **Roadmap Planner** (Stiltsoft) — timeline visualizations
 
 ## UI Design Patterns
 
-The skill includes 5 battle-tested layout patterns:
+The skill includes 8 battle-tested layout patterns:
 
 | Pattern | Use for | Example |
 |---|---|---|
@@ -63,6 +73,19 @@ The skill includes 5 battle-tested layout patterns:
 | **Handbook / Reference** | How-to guides, runbooks | Roles table, workflows, escalation paths |
 | **Workstreams / Tickets** | Ticket tracking | 3-column status cards + filterable table |
 | **Timeline & Milestones** | Roadmaps, planning | Roadmap macro + status-tracked milestones |
+| **Agenda Page** | Weekly syncs, reviews | Meeting details + timeboxed agenda + live metrics + spotlight |
+| **Status Update Page** | Weekly/monthly reporting | Status lozenge + metrics table + highlights + concerns |
+| **Decision Log Page** | Decision tracking | Immutable table + meeting notes expand archive |
+
+## Weekly Program Workflow
+
+| Day | Action |
+|-----|--------|
+| **Monday** | Generate agenda → Run sync → Log decisions → Log notes → Sync hub page |
+| **Wednesday** | Mid-week Jira check → Flag new blockers |
+| **Friday** | Generate status update → Sync hub page → Draft next week's agenda |
+| **End of Month** | Generate executive summary → Sync hub page → Review decision log |
+| **End of Quarter** | Quarterly review → Update program scope → Sync hub page |
 
 ## Installation
 
@@ -91,46 +114,57 @@ will discover the skill automatically.
    cloudflared access login https://wiki.cfdata.org/
    ```
 
-3. **Jira access**: The skill uses the Cloudflare Jira app link (`cc100dec-3d79-305b-8fae-4caba5e44cd2`). No additional config needed.
+3. **Python requests**: For page updates (avoids curl path corruption):
+   ```sh
+   pip3 install requests
+   ```
+
+4. **Jira access**: The skill uses the Cloudflare Jira app link (`cc100dec-3d79-305b-8fae-4caba5e44cd2`). No additional config needed.
 
 ## Usage
 
 Once installed, the skill auto-triggers when you mention wiki.cfdata.org, Confluence,
-dashboards, or ask to create/edit wiki pages.
+program management, weekly agenda, status update, decision log, or ask to create/edit wiki pages.
 
 ### Create a page
-
 ```
 Create a program health dashboard in INFOSEC with Jira counts for ThreatFocusedControl
 ```
 
 ### Edit a page
-
 ```
 Edit the Ticket Handling Handbook tab on this page:
 https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824
 Add roles, workflows, escalation paths, and a definition of done
 ```
 
-### Revamp a page
-
+### Generate a weekly agenda
 ```
-Revamp this wiki page with tabs, panels, and live Jira data:
-https://wiki.cfdata.org/spaces/INFOSEC/pages/1276292540
+Create a weekly sync agenda for [date] with [attendees]. Spotlight: AI Security (Sonia)
 ```
 
-### Replicate a page
-
+### Publish a status update
 ```
-Recreate this page as a child page under it with the same macros and styling:
-https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824
+Generate a weekly status update for the Threat-Focused Defense program. Highlights: [list]. Concerns: [list]
+```
+
+### Log a decision
+```
+Log a decision: Added AI Security as Wave 2 threat model. Rationale: emerging risk. Decided by: Tiana, Corinne
+```
+
+### Sync the hub page
+```
+Sync the hub page with the latest status update and agenda
 ```
 
 ## Real examples built with this skill
 
 | Page | What it demonstrates |
 |---|---|
+| [TFD Program Hub](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824) | Landing page with tabs, threat models table with wave separators, handbook, dashboard |
 | [Ticket Handling Handbook](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824#tab-Ticket+Handling+Handbook) | Handbook pattern: roles, workflows, escalation paths, DoD, label reference, weekly cadence |
+| [Threat-focused Defense (Revamped)](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424148786) | Revamped page with tabs, 2x2 dashboard, roadmap, milestones |
 
 ## Key lessons
 
@@ -140,14 +174,22 @@ https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824
 - **UI buttons** use `color=blue`, `url` (not `link`), no `textColor`.
 - **Validate XML tag balance** before creating — mismatched tags cause API errors.
 - **When editing pages**, fetch the current version first — pages can change between fetches.
+- **No nested panels** when replacing content inside an existing panel.
+- **Decision log entries are immutable** — if reversed, add a new entry with SUPERSEDED status.
+- **Hub page sync** after every status update, agenda, or decision log entry.
+- **Tool path corruption**: use `w"iki"` in URLs, use `/Users/tianaegidi/` instead of `/tmp/`.
 
 ## Repository map
 
 | Path | What it is |
 |---|---|
-| [`SKILL.md`](SKILL.md) | The skill instructions — macro reference, design patterns, workflows |
-| [`references/jira-reference.md`](references/jira-reference.md) | Jira app link ID, common JQL patterns, threat model labels |
+| [`SKILL.md`](SKILL.md) | The skill instructions — all 6 parts: page creation, agendas, status updates, hub sync, decision log, macro reference |
+| [`references/jira-reference.md`](references/jira-reference.md) | Jira app link ID, common JQL patterns, threat model labels (Wave 1 + Wave 2) |
 | [`references/page-template.xml`](references/page-template.xml) | Working page template with all macros properly configured |
+| [`references/agenda-templates.md`](references/agenda-templates.md) | Weekly sync, quarterly review, threat model review, ad-hoc agenda templates |
+| [`references/status-update-templates.md`](references/status-update-templates.md) | Weekly status, monthly executive summary, ad-hoc status templates |
+| [`references/decision-log-template.md`](references/decision-log-template.md) | Decision log page structure, immutability rules, add decision/notes workflows |
+| [`references/hub-page-pattern.md`](references/hub-page-pattern.md) | Hub page structure, sync triggers, sync code patterns |
 | [`scripts/update-handbook.py`](scripts/update-handbook.py) | Example script for editing an existing page section |
 
 *Confidential — Internal use only.*
