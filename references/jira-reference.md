@@ -158,7 +158,7 @@ https://jira.cfdata.org/issues/?jql=labels%20%3D%20ThreatFocusedControl%20and%20
 - **Backlog**: 63
 - **Blocked**: 1
 - **Cancelled**: 1
-- **Unassigned**: 12
+- **Unassigned**: 4
 - **Assigned**: 133
 
 ### By Priority

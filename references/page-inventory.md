@@ -112,7 +112,7 @@ Under TFD Status Updates 2026 (ID: `1424137842`):
 - **Backlog**: 63
 - **Blocked**: 1
 - **Cancelled**: 1
-- **Unassigned**: 12
+- **Unassigned**: 4
 - **Assigned**: 133
 
 ### By Priority
