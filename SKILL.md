@@ -5,96 +5,60 @@ description: All-in-one program management skill for the Threat-Focused Defense 
 
 # TFD Program Wiki Builder
 
-All-in-one skill for managing the **Threat-Focused Defense (TFD)** program's Confluence presence on wiki.cfdata.org. This skill controls exactly 5 pages plus their child pages. It is NOT a generic wiki tool — it is purpose-built for TFD program management.
+Reliable tool for managing the **Threat-Focused Defense (TFD)** program's Confluence presence on wiki.cfdata.org. Built for any program manager to pick up and use.
+
+## What This Skill Does
+
+Four core tasks:
+
+1. **Keep the Program Hub updated** — page ID `1276292540`
+2. **Keep the Status Updates index updated** — page ID `1424137842`
+3. **Create weekly agendas** — child pages under the index
+4. **Create weekly status reports** — child pages under the index
 
 ## Prerequisites
 
-1. **Script**: `~/wikigen-generic.sh` must exist and be executable
-2. **Cloudflared token**: `cloudflared access login https://wiki.cfdata.org/`
-3. **Jira app link ID**: `cc100dec-3d79-305b-8fae-4caba5e44cd2`
-4. **Python requests**: `pip3 install requests`
+1. **Cloudflared token**: Run `cloudflared access login https://wiki.cfdata.org/` (and separately for `https://jira.cfdata.org/`)
+2. **Python requests**: `pip3 install requests`
+3. **wikigen-generic.sh**: `~/wikigen-generic.sh` must exist and be executable (alternative page creation method)
 
 ## Tool Bug Workarounds
 
-- `wiki` → `iki` in bash — use `w"iki"` in URLs
+- `wiki` → `iki` in bash — use `w"iki"` in URLs or use Python `requests` instead
 - `tmp` → `ttp` in bash — use `/Users/tianaegidi/` for temp files
 - `issues` → `isses` — always verify Jira URLs in generated content
 
 ---
 
-## TFD Page Inventory
+## Page Inventory
 
-This skill controls exactly these 5 pages (all under INFOSEC > Security Team Home > Security Programs > GRC Program > Threat-focused Defense):
+All pages under: `INFOSEC > Security Team Home > Security Programs > GRC Program > Threat-focused Defense`
 
-### Page 1: TFD Program Hub [draft]
-- **ID**: `1424133824`
-- **URL**: `https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824`
-- **Purpose**: Main program landing page with tabs for all program content
-- **Design**: Blue gradient header (`#1c5e98 → #206db1 → #2885d7`)
-- **Version**: Track current via API (was 141 as of last edit)
-- **Tabs**: Program Overview, Program Health, Timeline & Milestones, Now|Next|Later, Workstreams, Ticket Handling Handbook, Resources
-- **JQL queries**: 38 live Jira macros
-- **Key content**:
-  - Threat models table with Wave 1 (5 models) and Wave 2 (3 models) separators
-  - 2x2 dashboard (Done/Total, Throughput, Unassigned, Blocked)
-  - Threat model breakdown table (per-model Backlog/In Progress/Done/Blocked counts)
-  - Milestones table with status lozenges
-  - Roadmap planner macro
-  - Ticket handling handbook (roles, workflows, escalation, DoD, labels, cadence)
+| Page | ID | URL | Role |
+|------|-----|-----|------|
+| **Program Hub** | `1276292540` | [Link](https://wiki.cfdata.org/spaces/INFOSEC/pages/1276292540) | Main landing page with 8 tabs |
+| **Status Updates 2026** | `1424137842` | [Link](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137842) | Index page linking to weekly agendas + status reports |
+| **Decision Log** | `1346668352` | [Link](https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668352) | Immutable decision log & meeting notes |
+| **Q1 Update** | `1346668357` | [Link](https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668357) | Quarterly briefing (orange theme) |
+| **PM Plan** | `1419363218` | [Link](https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218) | TPM tracker (two-column w/ sidebar) |
 
-### Page 2: Threat-focused Defense Q1 Update
-- **ID**: `1346668357`
-- **URL**: `https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668357`
-- **Purpose**: Q1 quarterly presentation/briefing page
-- **Design**: Orange gradient header (`#ff6633 → #f6821f → #fbad41`)
-- **Parent**: Notes page (1346668352)
-- **Tabs**: Current Progress, High Level Overview, Q1 Deliverables, 2026 & Beyond, 2026 Commitments, EDR Replacement Impact, Beyond 2026, Expanding Beyond Top 5, Resources
-- **JQL queries**: 20+ (extensive per-threat-model breakdowns with due date filters)
-- **Key JQL patterns**:
-  - `project = GRC AND labels = ThreatFocusedControl and labels = [MODEL] and (status in (Done, Cancelled, Closed) or due <= 2026-3-31) and labels not in ("needs-discussion")`
-  - `project = GRC and ((status in (Done, Closed) or due <= 2026-3-31) or labels in ("Q1'26")) and labels = ThreatFocusedControl`
-  - `project = GRC and status not in (Done, Closed, Cancelled) and labels = ThreatFocusedControl and labels in ("needs-discussion")`
-
-### Page 3: Project Management Plan
-- **ID**: `1419363218`
-- **URL**: `https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218`
-- **Purpose**: TPM project management tracker with ticket tracking and people management
-- **Design**: Two-column layout with right sidebar (`ac:layout-section ac:type="two_right_sidebar"`)
-- **Sections**: Program Overview, Goal Breakdown & Success Criteria, Action Items, People (Project Leads, Business Owners), Closed/Open/Unassigned Tickets, By Assignee, By Business Owner, Assignee-Business Owner Map, High Level Timeline
-- **JQL queries**: 7 (open tickets, closed tickets, unassigned)
-- **Note**: Has "Under Construction" panel — still being developed
-
-### Page 4: TFD Status Updates 2026
-- **ID**: `1424137842`
-- **URL**: `https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137842`
-- **Purpose**: Index page linking to weekly agendas and Friday status send-outs
-- **Structure**: Simple 2-column table (Weekly Meeting Agenda | Friday Status Send-Out)
-- **Child pages**:
-  - `1424137886` — 6/17/26 TFD Weekly Agenda (two-column layout, Overall Project Status, Project Artifacts, agenda table)
-  - `1424152018` — 6/19/26 Status Update (two-column with sidebar, 24 JQL queries, Executive Summary, Major Wins, Attention Required, View Tickets)
-- **Workflow**: Each week, create a new child page for the agenda (Monday) and status update (Friday), then add rows to this index table
-
-### Page 5: Notes
-- **ID**: `1346668352`
-- **URL**: `https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668352`
-- **Purpose**: Parent page for notes and decision log — currently just a children macro
-- **Child page**: Q1 Update (1346668357)
-- **Planned**: Convert to Decision Log & Meeting Notes page (see Part 5)
-
----
-
-## Page Hierarchy
+### Hierarchy
 
 ```
-Threat-focused Defense (ancestor, not directly managed)
-├── Notes (1346668352) ← Decision Log / Meeting Notes
-│   └── Q1 Update (1346668357) ← Quarterly briefing
-├── Project Management Plan (1419363218) ← TPM tracker
+Threat-focused Defense (1276292540) ← Program Hub (LIVE)
+├── Notes / Decision Log (1346668352)
+│   └── Q1 Update (1346668357)
+├── Project Management Plan (1419363218)
 ├── TFD Status Updates 2026 (1424137842) ← Index page
-│   ├── [Date] TFD Weekly Agenda (child pages, created each week)
-│   └── [Date] Status Update (child pages, created each week)
-└── TFD Program [draft] (1424133824) ← Main hub page
+│   ├── 6/17/26 TFD Weekly Agenda (1424137886)
+│   ├── 6/19/26 Status Update (1424152018)
+│   └── 6/26/26 TFD Weekly Agenda (1424156221)
+└── TFD Program [draft] (1424133824) ← OLD DRAFT, content moved to hub
 ```
+
+### Old Draft Page (1424133824)
+
+Content from this page was copied to the live hub (1276292540). The draft still exists as a child page but is no longer maintained. Can be deleted/archived.
 
 ---
 
@@ -113,8 +77,8 @@ Threat-focused Defense (ancestor, not directly managed)
 | # | Threat Model | Jira Label | Lead |
 |---|---|---|---|
 | 6 | Unauthorized Access to Customer Data | `UnauthorizedAccessCustomerData` | Evan |
-| 7 | Customer Zero Threats (T1 Phishing, T2 Credential Stuffing, T3 Identity Spoofing) | `CustomerZero` | Sahil |
-| 8 | AI Security (T1 AI without SDLC guardrails, T2 Reliance on Agentic AI) | `AISecurity` | Sonia |
+| 7 | Customer Zero Threats | `CustomerZero` | Sahil |
+| 8 | AI Security | `AISecurity` | Sonia |
 
 ### Other Jira Labels
 - `ThreatFocusedControl` — required on ALL program tickets
@@ -123,315 +87,102 @@ Threat-focused Defense (ancestor, not directly managed)
 
 ---
 
-## Part 1: Page Creation & Editing
+## API Patterns
 
-### Creating a New Page
-
-```bash
-~/wikigen-generic.sh -s INFOSEC -t "Page Title" -i PARENT_PAGE_ID -c ~/content.html
-```
-
-### Updating an Existing Page
-
-Use Python with `requests` for reliability:
+### Authentication
 
 ```python
-import json, requests, urllib3
+import json, requests, urllib3, subprocess, re, uuid
 urllib3.disable_warnings()
 
-token = '$CF_TOKEN'
-page_id = 'PAGE_ID'
+# Get cloudflared token
+result = subprocess.run(['cloudflared', 'access', 'login', 'https://wiki.cfdata.org/'],
+                        capture_output=True, text=True)
+token = None
+for line in (result.stdout + result.stderr).split('\n'):
+    m = re.search(r'eyJ[a-zA-Z0-9._-]+', line)
+    if m:
+        token = m.group(0)
+        break
 
-resp = requests.get(
-    f'https://wiki.cfdata.org/rest/api/content/{page_id}?expand=body.storage,version',
-    headers={'cf-access-token': token, 'X-Atlassian-Token': 'no-check'},
-    verify=False
-)
+HEADERS = {'cf-access-token': token, 'X-Atlassian-Token': 'no-check'}
+BASE = 'https://wiki.cfdata.org/rest/api/content'
+```
+
+### Fetch Page
+
+```python
+page_id = 'PAGE_ID'
+resp = requests.get(f'{BASE}/{page_id}?expand=body.storage,version',
+                    headers=HEADERS, verify=False)
 data = resp.json()
 body = data['body']['storage']['value']
 version = data['version']['number']
+title = data['title']
+```
 
-# Modify body here
-new_body = body[:start] + new_content + body[end:]
+### Update Page (PUT)
 
+**ALWAYS fetch current version right before updating.**
+
+```python
 payload = {
-    'id': page_id, 'type': 'page', 'title': data['title'],
+    'id': page_id,
+    'type': 'page',
+    'title': title,
     'body': {'storage': {'value': new_body, 'representation': 'storage'}},
     'version': {'number': version + 1}
 }
-
-resp2 = requests.put(
-    f'https://wiki.cfdata.org/rest/api/content/{page_id}',
-    json=payload,
-    headers={'cf-access-token': token, 'X-Atlassian-Token': 'no-check', 'Content-Type': 'application/json'},
-    verify=False
-)
+resp = requests.put(f'{BASE}/{page_id}', json=payload,
+                    headers={**HEADERS, 'Content-Type': 'application/json'},
+                    verify=False)
 ```
 
-**IMPORTANT**: Always fetch the version right before updating.
-
-### Finding Section Boundaries
+### Create Page (POST)
 
 ```python
-# Find panel by title
-idx = body.find('ac:name="panel"')
-content_start = body.find('<ac:rich-text-body>', idx)
-content_start = body.find('>', content_start) + 1
-panel_close = body.find('</ac:rich-text-body></ac:structured-macro>', content_start)
-old_end = panel_close + len('</ac:rich-text-body></ac:structured-macro>')
+payload = {
+    'type': 'page',
+    'title': 'Page Title',
+    'space': {'key': 'INFOSEC'},
+    'ancestors': [{'id': PARENT_ID}],
+    'body': {'storage': {'value': body_html, 'representation': 'storage'}}
+}
+resp = requests.post(BASE, json=payload,
+                     headers={**HEADERS, 'Content-Type': 'application/json'},
+                     verify=False)
+new_page_id = resp.json()['id']
 ```
 
-Use `find()` for the first closing tag, NOT `rfind()`.
-
-### Critical Rule: Storage Format Only
-
-**ALWAYS use Confluence Storage Format (XHTML)**. Never use rendered HTML — it locks the editor.
+### Critical Rules
+- **Storage Format Only** — never use rendered HTML (locks the editor)
+- **Always fetch version right before PUT** — pages change between fetches
+- **Use `find()` not `rfind()`** for the first closing tag when replacing sections
+- **No nested panels** when replacing content inside an existing panel
+- **Validate XML tag balance** before creating — mismatched tags cause API errors
 
 ---
 
-## Part 2: Weekly Agenda Generation
+## Task 1: Program Hub Maintenance
 
-### Where Agendas Live
-- **Parent page**: TFD Status Updates 2026 (ID: `1424137842`)
-- **Naming convention**: `[M/D/YY] TFD Weekly Agenda` (e.g., "6/17/26 TFD Weekly Agenda")
-- **Index**: Add a row to the parent page's table linking to the new agenda
-
-### Agenda Page Design (matches existing 6/17/26 agenda)
-- Two-column layout (`ac:type="two_equal"`)
-- Left column: Overall Project Status with status lozenge + Definition of Done reminder
-- Right column: Project Artifacts (links to PM Plan, Hub Wiki, Email Template)
-- Full-width section: Agenda table with timeboxed topics
-
-### Agenda Template
-
-```xml
-<ac:layout>
-  <ac:layout-section ac:type="two_equal">
-    <ac:layout-cell>
-      <h2><strong>Overall Project Status</strong></h2>
-      <table class="fixed-width wrapped">
-        <colgroup><col style="width: 38.6071%;" /><col style="width: 61.3929%;" /></colgroup>
-        <tbody>
-          <tr>
-            <td class="highlight-grey" data-highlight-colour="grey"><p><time datetime="[DATE]" /></p></td>
-            <td><p><strong> <ac:structured-macro ac:name="status" ac:schema-version="1" ac:macro-id="UUID">
-              <ac:parameter ac:name="subtle">true</ac:parameter>
-              <ac:parameter ac:name="colour">Red</ac:parameter>
-            </ac:structured-macro></strong></p></td>
-          </tr>
-        </tbody>
-      </table>
-      <p>Project is in [Red/Yellow/Green] ...</p>
-      <p><strong>Definition of Done:</strong> [Current DoD statement]</p>
-    </ac:layout-cell>
-    <ac:layout-cell>
-      <p><strong>Project Artifacts:</strong></p>
-      <ul>
-        <li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218">TFD Project Management Wiki</a></li>
-        <li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824">TFD Program Hub Wiki</a></li>
-      </ul>
-    </ac:layout-cell>
-  </ac:layout-section>
-  <ac:layout-section ac:type="single">
-    <ac:layout-cell>
-      <h2>Agenda</h2>
-      <table class="relative-table wrapped">
-        <tbody>
-          <tr><th>Time</th><th>Topic</th><th>Owner</th></tr>
-          <tr><td>0:00</td><td>Roll call + agenda review</td><td>Facilitator</td></tr>
-          <tr><td>0:02</td><td>Program health dashboard review</td><td>TPM</td></tr>
-          <tr><td>0:10</td><td>Threat model spotlight (rotating)</td><td>Lead Assessor</td></tr>
-          <tr><td>0:20</td><td>Blockers &amp; escalations</td><td>Open floor</td></tr>
-          <tr><td>0:25</td><td>Action items + next week preview</td><td>Facilitator</td></tr>
-        </tbody>
-      </table>
-      
-      <h3>Dashboard Snapshot</h3>
-      <table>
-        <tbody>
-          <tr><th>Metric</th><th>Current</th><th>Trend</th></tr>
-          <tr><td>Total Controls</td><td>[Jira macro]</td><td>[+/-]</td></tr>
-          <tr><td>Completed</td><td>[Jira macro]</td><td>[+/-]</td></tr>
-          <tr><td>In Progress</td><td>[Jira macro]</td><td>[+/-]</td></tr>
-          <tr><td>Blocked</td><td>[Jira macro]</td><td>[+/-]</td></tr>
-          <tr><td>Unassigned</td><td>[Jira macro]</td><td>[+/-]</td></tr>
-        </tbody>
-      </table>
-      
-      <h3>Action Items</h3>
-      <table>
-        <tbody>
-          <tr><th>#</th><th>Action</th><th>Owner</th><th>Due</th><th>Status</th></tr>
-        </tbody>
-      </table>
-      
-      <h3>Decisions Made</h3>
-      <table>
-        <tbody>
-          <tr><th>Decision</th><th>Rationale</th><th>Decided By</th></tr>
-        </tbody>
-      </table>
-    </ac:layout-cell>
-  </ac:layout-section>
-</ac:layout>
-```
-
-### Agenda Workflow
-1. Ask user for: date, attendees, spotlight threat model, any specific topics
-2. Create child page under TFD Status Updates 2026 (ID: `1424137842`)
-3. Add row to the index table on the parent page
-4. Update hub page Quick Links if applicable
-
----
-
-## Part 3: Status Updates
-
-### Where Status Updates Live
-- **Parent page**: TFD Status Updates 2026 (ID: `1424137842`)
-- **Naming convention**: `[M/D/YY] Status Update` (e.g., "6/19/26 Status Update")
-- **Index**: Add a row to the parent page's table in the "Friday Status Send-Out" column
-
-### Status Update Page Design (matches existing 6/19/26 status update)
-- Two-column layout with right sidebar (`ac:type="two_right_sidebar"`)
-- Main column: Overall Program Status panel, Executive Summary, High Level Overview, Next Steps, Major Wins, Attention Required, per-threat-model ticket views
-- Sidebar: Quick metrics, links
-- 24 JQL queries pulling live data per threat model
-
-### Status Update Template
-
-```xml
-<ac:layout>
-  <ac:layout-section ac:type="two_right_sidebar">
-    <ac:layout-cell>
-      <!-- Overall Program Status -->
-      <ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">
-        <ac:parameter ac:name="borderColor">#394ECE</ac:parameter>
-        <ac:parameter ac:name="titleColor">white</ac:parameter>
-        <ac:parameter ac:name="titleBGColor">#394ECE</ac:parameter>
-        <ac:parameter ac:name="title">Overall Program Status</ac:parameter>
-        <ac:rich-text-body>
-          <table class="fixed-width wrapped">
-            <tbody>
-              <tr>
-                <td class="highlight-grey"><p><time datetime="[DATE]" /></p></td>
-                <td><p><strong><ac:structured-macro ac:name="status" ac:schema-version="1" ac:macro-id="UUID">
-                  <ac:parameter ac:name="subtle">true</ac:parameter>
-                  <ac:parameter ac:name="colour">[Red/Yellow/Green]</ac:parameter>
-                </ac:structured-macro></strong></p></td>
-              </tr>
-            </tbody>
-          </table>
-        </ac:rich-text-body>
-      </ac:structured-macro>
-
-      <!-- Executive Summary -->
-      <ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">
-        <ac:parameter ac:name="title">Executive Summary</ac:parameter>
-        <ac:rich-text-body>
-          <p>[2-3 sentence narrative]</p>
-        </ac:rich-text-body>
-      </ac:structured-macro>
-
-      <!-- Metrics table with live Jira counts -->
-      <table>
-        <tbody>
-          <tr>
-            <td><h1><a href="[Jira URL]">[Jira count macro]</a></h1><p>Total Tickets</p></td>
-            <td><h1><a href="[Jira URL]">[Jira count macro]</a></h1><p>Open</p></td>
-            <td><h1><a href="[Jira URL]">[Jira count macro]</a></h1><p>Completed</p></td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- High Level Overview -->
-      <ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">
-        <ac:parameter ac:name="title">High Level Overview</ac:parameter>
-        <ac:rich-text-body>
-          <p>[Overview narrative]</p>
-        </ac:rich-text-body>
-      </ac:structured-macro>
-
-      <!-- Major Wins -->
-      <ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">
-        <ac:parameter ac:name="title">✅ Major Wins This Week</ac:parameter>
-        <ac:rich-text-body>
-          <ul><li>[Win 1]</li><li>[Win 2]</li></ul>
-        </ac:rich-text-body>
-      </ac:structured-macro>
-
-      <!-- Attention Required -->
-      <ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">
-        <ac:parameter ac:name="title">⚠️ ATTENTION REQUIRED</ac:parameter>
-        <ac:rich-text-body>
-          <ul><li>[Concern 1]</li></ul>
-        </ac:rich-text-body>
-      </ac:structured-macro>
-
-      <!-- Per-threat-model ticket views -->
-      <h3>PROJECT WORKSTREAMS</h3>
-      <table>
-        <tbody>
-          <tr><th>Threat Model</th><th>Done</th><th>Open</th><th>Total</th><th>View Tickets</th></tr>
-          <tr>
-            <td>Compromised Server</td>
-            <td>[Jira macro]</td>
-            <td>[Jira macro]</td>
-            <td>[Jira macro]</td>
-            <td>[Jira macro]</td>
-          </tr>
-          <!-- ... repeat for each threat model ... -->
-        </tbody>
-      </table>
-    </ac:layout-cell>
-    
-    <ac:layout-cell>
-      <!-- Sidebar: Quick links and metrics -->
-      <p><strong>Quick Links</strong></p>
-      <ul>
-        <li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824">Program Hub</a></li>
-        <li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218">PM Plan</a></li>
-      </ul>
-    </ac:layout-cell>
-  </ac:layout-section>
-</ac:layout>
-```
-
-### Status Update JQL Patterns (per threat model)
-```
-Done:   labels = [LABEL] and status in (Done, Cancelled)
-Open:   labels = [LABEL] and status not in (Done, Cancelled)
-Total:  labels = [LABEL]
-```
-
-### Status Update Workflow
-1. Ask user for: date, executive summary narrative, wins, concerns, overall status color
-2. Fetch live Jira counts for all 8 threat models
-3. Create child page under TFD Status Updates 2026 (ID: `1424137842`)
-4. Add row to the index table on the parent page (Friday Status Send-Out column)
-5. Update hub page's Latest Status panel
-
----
-
-## Part 4: Hub Page Management
-
-The hub page (ID: `1424133824`) is the program's main landing page. It must stay in sync when other pages change.
+**Page**: `1276292540` | **Design**: Blue gradient header (`#1c5e98 → #206db1 → #2885d7`)
 
 ### Hub Page Tabs
-1. **Program Overview** — threat models table with wave separators
-2. **Program Health** — 2x2 dashboard + threat model breakdown table
-3. **Timeline & Milestones** — roadmap + milestones with status lozenges
-4. **Now | Next | Later** — workstream prioritization
-5. **Workstreams** — open/closed tickets with table filters
-6. **Ticket Handling Handbook** — roles, workflows, escalation, DoD, labels, cadence
-7. **Resources** — links to all program resources
 
-### Progress Panel Design (DO NOT CHANGE SIZING)
-The 2x2 grid in the Progress Panel has been finalized. When editing these boxes:
-- **Keep the exact same panel structure** — same border colors, border widths (3), bg colors
-- **Keep the exact same spacing** — `padding-top: 15px` on lozenge, `margin-top: 30px; margin-bottom: 30px` on percentage, `margin-bottom: 20px` on counts, `margin-bottom: 15px` on target
-- **Keep the same font sizes** — 48px for percentage, 14px for counts, 10px for last-calculated
-- **Keep the same layout** — status lozenge → big percentage → counts text → target → last calculated
-- Only update the percentage value, JQL queries, and last-calculated date
+| Tab | Content | JQL Count |
+|-----|---------|-----------|
+| Program Overview | Threat models table with Wave 1 (5 models) + Wave 2 (3 models) separators | 0 (links only) |
+| Program Health | 2x2 Progress Panel dashboard + threat model breakdown table | ~20 |
+| Timeline & Milestones | Stiltsoft Roadmap Planner + milestones table with status lozenges | 0 |
+| Now \| Next \| Later | 3 sub-tabs with workstream tables, Jira count macros, status lozenges | ~15 |
+| Status Distribution | KPI cards (Total/In Progress/Blocked), threat model breakdown, priority distribution, assignment overview | ~25 |
+| Workstreams | Open/closed tickets with table filters | ~10 |
+| Ticket Handling Handbook | Roles, workflows, escalation, DoD, labels, cadence | 0 |
+| Resources | Links to all program resources | 0 |
+
+### Progress Panel Design (DO NOT CHANGE)
+
+The 2x2 grid in the Progress Panel is finalized. When editing these boxes:
 
 | Position | Border | BG | Text Color | Metric |
 |----------|--------|----|------------|--------|
@@ -440,10 +191,14 @@ The 2x2 grid in the Progress Panel has been finalized. When editing these boxes:
 | Bottom-left | `#FFC000` | `#FFFDE7` | `#B8860B` | Unassigned |
 | Bottom-right | `#FF0000` | `#FFF0F0` | `#CC0000` | Blocked |
 
+**Keep exact**: panel structure, border colors, border widths (3), bg colors, spacing (`padding-top: 15px` on lozenge, `margin-top: 30px; margin-bottom: 30px` on percentage, `margin-bottom: 20px` on counts, `margin-bottom: 15px` on target), font sizes (48px percentage, 14px counts, 10px last-calculated), layout order (status lozenge → big percentage → counts text → target → last calculated).
+
+Only update: percentage value, JQL queries, and last-calculated date.
+
 ### Hub Page Sync Triggers
 
-| Trigger | What to Update on Hub |
-|---------|----------------------|
+| Trigger | What to Update |
+|---------|---------------|
 | New status update published | Update any "latest status" references, add link to Resources tab |
 | New agenda created | Add link to Resources tab |
 | New threat model added | Update Program Overview tab table |
@@ -451,180 +206,352 @@ The 2x2 grid in the Progress Panel has been finalized. When editing these boxes:
 | Milestone completed | Update Timeline & Milestones tab status lozenges |
 | Quarterly review done | Update Program Overview, Health, and Timeline tabs |
 
-### Hub Page Design
-- Blue gradient header: `linear-gradient(145deg, #1c5e98, #206db1, #2885d7)`
-- Welcome panel with program description
-- Team & Stakeholders table
-- "How to read this page" panel
-- UI tabs with `ac:schema-version="1"` and unique `ac:macro-id`
+### Roadmap Colors
+- Wave 1 = orange (`#e8741e` / `#f5a623`)
+- Wave 2 = yellow (`#f5c842` / `#fce596`)
 
 ---
 
-## Part 5: Decision Log & Meeting Notes
+## Task 2: Status Updates Index Maintenance
 
-### Current State
-The Notes page (ID: `1346668352`) currently just has a children macro displaying child pages. The Q1 Update page is its only child.
+**Page**: `1424137842`
 
-### Planned: Convert Notes to Decision Log
-Transform the Notes page into a full decision log and meeting notes archive:
+### Index Table Structure
 
-```xml
-<h1>📝 TFD Decision Log &amp; Meeting Notes</h1>
+The index page has a 2-column table:
 
-<ac:structured-macro ac:name="panel">
-  <ac:parameter ac:name="title">About This Log</ac:parameter>
-  <ac:parameter ac:name="titleBGColor">#1c5e98</ac:parameter>
-  <ac:parameter ac:name="titleColor">#FFFFFF</ac:parameter>
-  <ac:rich-text-body>
-    <p>Immutable record of all TFD program decisions and meeting notes. Entries are never edited — if a decision is reversed, a new entry is added with SUPERSEDED status.</p>
-  </ac:rich-text-body>
-</ac:structured-macro>
+| Weekly Meeting Agendas | Friday Status Send-Outs |
+|----------------------|----------------------|
+| [Links to agenda pages] | [Links to status pages] |
 
-<h2>Decision Log</h2>
-<table>
-  <tbody>
-    <tr><th>#</th><th>Date</th><th>Decision</th><th>Rationale</th><th>Decided By</th><th>Stakeholders</th><th>Impact</th><th>Status</th><th>Supersedes</th></tr>
-    <!-- New rows appended here -->
-  </tbody>
-</table>
+### Adding a Row
 
-<h2>Meeting Notes Archive</h2>
-<!-- Expand macros per meeting, newest first -->
+When a new agenda or status update is created, add a link to the appropriate column:
+
+```python
+# Fetch the index page
+resp = requests.get(f'{BASE}/1424137842?expand=body.storage,version',
+                    headers=HEADERS, verify=False)
+data = resp.json()
+body = data['body']['storage']['value']
+version = data['version']['number']
+
+# Add link to the appropriate column
+# For agendas: add <p><a href="URL">Title</a></p> inside the first <td>
+# For status updates: add <p><a href="URL">Title</a></p> inside the second <td>
+
+# PUT update with version + 1
 ```
 
-### Adding a Decision
-1. Fetch Notes page (ID: `1346668352`)
-2. Find the decisions table `</tbody>`
-3. Insert new `<tr>` before `</tbody>`
-4. Auto-increment decision number
-5. PUT update with version + 1
+### Full Index Rebuild Pattern
 
-### Adding Meeting Notes
-1. Fetch Notes page
-2. Find the last expand macro before `</ac:confluence>` (or the Meeting Notes header)
-3. Insert new expand macro with meeting details
-4. PUT update
+If the table gets corrupted or needs a full rebuild:
 
-### Decision Status Lozenges
-- **Green "ACTIVE"** — In effect
-- **Grey "SUPERSEDED"** — Replaced (reference new #)
-- **Yellow "UNDER REVIEW"** — Being reconsidered
-- **Red "REVERSED"** — Reversed without replacement
-
----
-
-## Part 6: Q1 Update Page Management
-
-The Q1 Update page (ID: `1346668357`) is a quarterly briefing with an orange gradient design. It uses extensive JQL queries with due date filters.
-
-### Q1 Update Design
-- Orange gradient header: `linear-gradient(145deg, #ff6633, #f6821f, #fbad41)`
-- 9 tabs covering current progress, deliverables, 2026 commitments, and future expansion
-- 59 Jira links with complex JQL (due dates, status filters, needs-discussion exclusions)
-
-### Key JQL Patterns (Q1 Update specific)
-```
-# Q1 completed (by threat model)
-project = GRC AND labels = ThreatFocusedControl and labels = [MODEL] 
-  and (status in (Done, Cancelled, Closed) or due <= 2026-3-31) 
-  and labels not in ("needs-discussion")
-
-# All Q1 commitments
-project = GRC and ((status in (Done, Closed) or due <= 2026-3-31) 
-  or labels in ("Q1'26")) and labels = ThreatFocusedControl
-
-# Needs discussion
-project = GRC and status not in (Done, Closed, Cancelled) 
-  and labels = ThreatFocusedControl and labels in ("needs-discussion")
-
-# No due date, no quarter label
-project = GRC and status not in (Done, Closed, Cancelled) and due = EMPTY 
-  and labels = ThreatFocusedControl 
-  and labels not in ("Q1'26", "Q2'26", "Q3'26", "Q4'26") 
-  and "Business Owner" != EMPTY
-```
-
-### When to Update Q1 Page
-- End of quarter: Update with final Q1 metrics
-- Quarterly review: Add new quarter tab
-- New threat model: Add to "Expanding Beyond Top 5" tab
-
----
-
-## Part 7: Project Management Plan Management
-
-The PM Plan page (ID: `1419363218`) is the TPM's operational tracker.
-
-### PM Plan Design
-- Two-column layout with right sidebar
-- Left: Program Overview, Goals, Action Items, People, Ticket Trackers, Timeline
-- Right sidebar: Quick reference
-
-### PM Plan Sections
-1. **Program Overview** — currently "Under Construction"
-2. **Goal Breakdown & Success Criteria** — program goals
-3. **Action Items** — tracked items
-4. **People** — Project Leads, Business Owners
-5. **Ticket Trackers** — Closed, Open, Unassigned (with Jira macros)
-6. **By Assignee** — ticket counts per assignee
-7. **By Business Owner** — ticket counts per business owner
-8. **Assignee-Business Owner Map** — relationship matrix
-9. **High Level Timeline** — timeline for TPM projects
-
-### PM Plan JQL Patterns
-```
-Open:        labels = ThreatFocusedControl and status not in (Done, Cancelled)
-Closed:      labels = ThreatFocusedControl and status in (Done, Cancelled)
-Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (Done, Cancelled) AND assignee = EMPTY
+```python
+new_body = '<table class="wrapped"><colgroup><col /><col /></colgroup><tbody>'
+new_body += '<tr><th scope="col">Weekly Meeting Agendas</th><th scope="col">Friday Status Send-Outs</th></tr>'
+new_body += '<tr>'
+new_body += '<td>'
+new_body += '<p><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137886">6/17/26 TFD Weekly Agenda</a></p>'
+new_body += '<p><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424156221">6/26/26 TFD Weekly Agenda</a></p>'
+new_body += '</td>'
+new_body += '<td>'
+new_body += '<p><ac:link><ri:page ri:content-title="6/19/26 Status Update" /></ac:link></p>'
+new_body += '</td>'
+new_body += '</tr></tbody></table><p><br /></p>'
 ```
 
 ---
 
-## Part 8: Full Weekly Workflow
+## Task 3: Weekly Agenda Creation
 
-### Monday
-1. **Create weekly agenda** — child page under TFD Status Updates 2026 (ID: `1424137842`)
-2. **Add row to index table** on the parent page
+### Naming Convention
+`[M/D/YY] TFD Weekly Agenda` (e.g., "6/26/26 TFD Weekly Agenda")
+
+### Parent Page
+`1424137842` (TFD Status Updates 2026)
+
+### Design Rules (CRITICAL)
+
+- **NO `ac:layout` macros** — they lock the Confluence editor, making real-time note-taking impossible during meetings
+- **NO expand macros for discussion items** — use bullet lists for live note-taking
+- **NO panel macros for section headers** — use colored table cells instead
+- Colored section headers use single-cell tables with inline `style="background-color: #color; color: #FFFFFF;"` (NOT `highlight-#color` class — doesn't render reliably)
+
+### Agenda Structure (6 Sections + Parking Lot)
+
+```
+1) Project Status          (blue header #0052cc)
+2) Progress Updates         (purple header #6554C0)
+3) Status by Workstream     (orange header #FF8B00)
+4) Discussion Items         (red header #DE350B)
+5) Notes                    (grey header #6B778C)
+6) Next Steps               (green header #36B37E)
+Parking Lot                 (light grey header #97a0af)
+```
+
+### Helper Functions
+
+```python
+def colored_header(text, color):
+    return f'<table class="wrapped" style="width: 100%;"><tbody><tr><td style="background-color: {color}; color: #FFFFFF;"><strong>{text}</strong></td></tr></tbody></table>'
+
+def th(color, text):
+    return f'<th style="background-color: {color}; color: #FFFFFF;"><strong>{text}</strong></th>'
+
+def status_lozenge(color, title_text):
+    return f'<ac:structured-macro ac:name="status" ac:schema-version="1" ac:macro-id="{uuid.uuid4()}"><ac:parameter ac:name="subtle">true</ac:parameter><ac:parameter ac:name="colour">{color}</ac:parameter><ac:parameter ac:name="title">{title_text}</ac:parameter></ac:structured-macro>'
+```
+
+### Section 1: Project Status
+
+```python
+parts.append(colored_header('1) Project Status', '#0052cc'))
+parts.append('<p>Current state of the project.</p>')
+parts.append('<table class="wrapped"><tbody>')
+parts.append(f'<tr><th style="width: 35%;">Overall status</th><td>{status_lozenge("Yellow", "AT RISK")} [narrative]</td></tr>')
+parts.append('<tr><th>On track / at risk / blocked</th><td>[assessment]</td></tr>')
+parts.append('<tr><th>Key wins since last meeting</th><td><ul><li>[win 1]</li><li>[win 2]</li></ul></td></tr>')
+parts.append('<tr><th>Main blockers or decisions needed</th><td><ul><li>[blocker 1]</li></ul></td></tr>')
+parts.append('<tr><th>Definition of Done</th><td>[DoD statement]</td></tr>')
+parts.append('<tr><th>Path to green</th><td>[path to green]</td></tr>')
+parts.append('</tbody></table>')
+parts.append('<p><br /></p>')
+
+# Project Artifacts sub-section
+parts.append(colored_header('Project Artifacts', '#36B37E'))
+parts.append('<ul>')
+parts.append('<li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218">TFD Project Management Wiki</a></li>')
+parts.append('<li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1276292540">TFD Program Hub Wiki</a></li>')
+parts.append('<li><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668352">TFD Decision Log</a></li>')
+parts.append('</ul>')
+```
+
+### Section 2: Progress Updates
+
+```python
+parts.append(colored_header('2) Progress Updates', '#6554C0'))
+parts.append('<p><em>What has happened since the last meeting.</em></p>')
+parts.append('<table class="wrapped"><tbody>')
+parts.append(f'<tr>{th("#6554C0", "Update")}{th("#6554C0", "Owner")}{th("#6554C0", "Progress made")}{th("#6554C0", "Follow-up")}</tr>')
+# One row per update item
+parts.append('</tbody></table>')
+```
+
+### Section 3: Status by Workstream
+
+```python
+parts.append(colored_header('3) Status by Workstream', '#FF8B00'))
+parts.append('<p><em>Review each workstream one at a time.</em></p>')
+parts.append('<table class="wrapped"><tbody>')
+parts.append(f'<tr>{th("#FF8B00", "Workstream")}{th("#FF8B00", "Status")}{th("#FF8B00", "What changed")}{th("#FF8B00", "Next milestone")}{th("#FF8B00", "Owner")}</tr>')
+# Wave 1, Wave 2, Wave 3 rows
+parts.append('</tbody></table>')
+```
+
+### Section 4: Discussion Items
+
+```python
+parts.append(colored_header('4) Discussion Items', '#DE350B'))
+parts.append('<p><em>Use this section for the questions we need to solve.</em></p>')
+# Each item as h3 + bullet list (NOT expand macros)
+parts.append('<h3>Item 1: [Title]</h3>')
+parts.append('<ul>')
+parts.append('<li><strong>Question:</strong> [question]</li>')
+parts.append('<li><strong>Context:</strong> [context]</li>')
+parts.append('<li><strong>Decision needed:</strong> [decision]</li>')
+parts.append('<li><strong>Owner:</strong> [owner]</li>')
+parts.append('<li><strong>Timebox:</strong> [time]</li>')
+parts.append('</ul>')
+```
+
+### Section 5: Notes
+
+```python
+parts.append(colored_header('5) Notes', '#6B778C'))
+parts.append('<p><em>Helpful context and parked tangents.</em></p>')
+parts.append('<ul>')
+# Bullet list of notes
+parts.append('</ul>')
+```
+
+### Section 6: Next Steps
+
+```python
+parts.append(colored_header('6) Next Steps', '#36B37E'))
+parts.append('<p><em>Action items before we close.</em></p>')
+parts.append('<table class="wrapped"><tbody>')
+parts.append(f'<tr>{th("#36B37E", "Action item")}{th("#36B37E", "Owner")}{th("#36B37E", "Due date")}{th("#36B37E", "Status")}</tr>')
+# One row per action item with status lozenge
+parts.append('</tbody></table>')
+```
+
+### Parking Lot
+
+```python
+parts.append(colored_header('Parking Lot', '#97a0af'))
+parts.append('<p><em>Topics to revisit later.</em></p>')
+parts.append('<ul>')
+# Bullet list of parked topics
+parts.append('</ul>')
+```
+
+### Agenda Workflow
+
+1. Ask user for: date, attendees, discussion items, wins, blockers, action items
+2. Build page body using the 6-section template above
+3. Create child page under `1424137842` (POST to API)
+4. Add link to index table on `1424137842` (Task 2)
+5. Log any decisions to Decision Log page `1346668352`
+
+---
+
+## Task 4: Weekly Status Report Creation
+
+### Naming Convention
+`[M/D/YY] Status Update` (e.g., "6/19/26 Status Update")
+
+### Parent Page
+`1424137842` (TFD Status Updates 2026)
+
+### Design Rules
+
+- Uses `ac:layout` with `two_right_sidebar` (status reports are NOT edited live, so layout macros are OK)
+- Main column: Overall Program Status panel, Executive Summary, metrics, per-threat-model views
+- Sidebar: Quick links and metrics
+- All Jira counts are live JQL macros (not hardcoded numbers)
+
+### Status Report Structure
+
+```python
+parts = []
+
+# Overall Program Status panel
+parts.append('<ac:structured-macro ac:name="panel" ac:schema-version="1" ac:macro-id="UUID">')
+parts.append('<ac:parameter ac:name="borderColor">#394ECE</ac:parameter>')
+parts.append('<ac:parameter ac:name="titleColor">white</ac:parameter>')
+parts.append('<ac:parameter ac:name="titleBGColor">#394ECE</ac:parameter>')
+parts.append('<ac:parameter ac:name="title">Overall Program Status</ac:parameter>')
+parts.append('<ac:rich-text-body>')
+parts.append(f'<table class="fixed-width wrapped"><tbody>')
+parts.append(f'<tr><td class="highlight-grey"><p><time datetime="{date}" /></p></td>')
+parts.append(f'<td><p><strong>{status_lozenge(color, title)}</strong></p></td></tr>')
+parts.append('</tbody></table>')
+parts.append('</ac:rich-text-body></ac:structured-macro>')
+
+# Two-column layout with right sidebar
+parts.append('<ac:layout><ac:layout-section ac:type="two_right_sidebar"><ac:layout-cell>')
+
+# Executive Summary panel
+# High Level Overview panel
+# Major Wins panel
+# Attention Required panel
+# Project Workstreams table (per-threat-model with Jira macros)
+
+parts.append('</ac:layout-cell><ac:layout-cell>')
+# Sidebar: Quick Links, metrics
+parts.append('</ac:layout-cell></ac:layout-section></ac:layout>')
+```
+
+### Jira Count Macro
+
+```python
+def jira_count(jql):
+    return f'''<ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="{uuid.uuid4()}">
+  <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
+  <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
+  <ac:parameter ac:name="jqlQuery">{jql}</ac:parameter>
+  <ac:parameter ac:name="count">true</ac:parameter>
+</ac:structured-macro>'''
+```
+
+### Per-Threat-Model JQL Patterns
+
+For each threat model, use these JQL patterns in the workstream table:
+
+```
+Done:   labels = ThreatFocusedControl and labels in (LABEL) and status in (Done, Cancelled)
+Open:   labels = ThreatFocusedControl and labels in (LABEL) and status not in (Done, Cancelled)
+Total:  labels = ThreatFocusedControl and labels in (LABEL)
+```
+
+### Program-Level Metrics JQL
+
+```
+Total:       labels = ThreatFocusedControl
+Completed:   labels = ThreatFocusedControl and status in (Done, Closed, Cancelled)
+In Progress: labels = ThreatFocusedControl and status = "In Progress"
+Blocked:     labels = ThreatFocusedControl and status in (Blocked)
+Unassigned:  labels = ThreatFocusedControl and assignee = EMPTY
+```
+
+### Status Lozenge Logic
+
+| Completion Rate | Blocked > 3 days | Unassigned > 5 | Lozenge |
+|----------------|-------------------|-----------------|---------|
+| >= 70% | No | No | Green (ON TRACK) |
+| 40-69% | Yes | Yes | Yellow (AT RISK) |
+| < 40% | Yes | Yes | Red (OFF TRACK) |
+
+### Status Report Workflow
+
+1. Ask user for: date, executive summary narrative, wins, concerns, overall status color
+2. Fetch live Jira counts for all 8 threat models (or use Jira macros for live counts)
+3. Create child page under `1424137842` (POST to API)
+4. Add link to index table on `1424137842` — Friday Status Send-Out column (Task 2)
+5. Update hub page `1276292540` if needed (Task 1)
+
+---
+
+## Full Weekly Workflow
+
+### Monday (or day of sync)
+1. **Create weekly agenda** — child page under `1424137842`
+2. **Add row to index table** on `1424137842` (Weekly Meeting Agendas column)
 3. **Run the sync** using the agenda
-4. **Log decisions** to the Notes/Decision Log page (ID: `1346668352`)
-5. **Log meeting notes** as expand macro on the Notes page
-
-### Wednesday
-1. **Mid-week Jira check** — fetch counts, flag new blockers
-2. **Update PM Plan** if new action items or people changes
+4. **Log decisions** to Decision Log page `1346668352`
 
 ### Friday
-1. **Create status update** — child page under TFD Status Updates 2026
-2. **Add row to index table** (Friday Status Send-Out column)
-3. **Update hub page** if needed (Latest Status references)
-4. **Draft next week's agenda**
+1. **Create status update** — child page under `1424137842`
+2. **Add row to index table** on `1424137842` (Friday Status Send-Outs column)
+3. **Update hub page** `1276292540` if needed
 
 ### End of Month
-1. **Generate executive summary** (can be a tab on the status update or standalone page)
-2. **Review decision log** — mark any superseded decisions
-3. **Update PM Plan** with monthly metrics
+1. Generate executive summary (can be a tab on the status update)
+2. Review decision log — mark any superseded decisions
+3. Update PM Plan `1419363218` with monthly metrics
 
 ### End of Quarter
-1. **Update Q1 Update page** (or create Q2/Q3/Q4 equivalent)
-2. **Run quarterly review** using the quarterly review agenda
-3. **Update program scope** — add/remove threat models in hub page Program Overview tab
-4. **Update all pages** with new quarter info
+1. Update Q1 Update page `1346668357` (or create Q2/Q3/Q4 equivalent)
+2. Run quarterly review using quarterly review agenda template
+3. Update program scope — add/remove threat models in hub page Program Overview tab
+4. Update all pages with new quarter info
 
 ---
 
 ## Macro Reference
 
-### Jira Issues Count Macro (CRITICAL)
+### Jira Issues Count Macro
 ```xml
 <ac:structured-macro ac:name="jira" ac:schema-version="1" ac:macro-id="UNIQUE-UUID">
   <ac:parameter ac:name="server">Cloudflare Jira</ac:parameter>
   <ac:parameter ac:name="serverId">cc100dec-3d79-305b-8fae-4caba5e44cd2</ac:parameter>
-  <ac:parameter ac:name="jqlQuery">labels = ThreatFocusedControl AND status = Done</ac:parameter>
+  <ac:parameter ac:name="jqlQuery">YOUR JQL HERE</ac:parameter>
   <ac:parameter ac:name="count">true</ac:parameter>
 </ac:structured-macro>
 ```
 - Parameter is `jqlQuery` (NOT `jql`)
 - Each macro needs unique `ac:macro-id` (UUID)
+
+### Status Lozenge
+```xml
+<ac:structured-macro ac:name="status" ac:schema-version="1" ac:macro-id="UUID">
+  <ac:parameter ac:name="subtle">true</ac:parameter>
+  <ac:parameter ac:name="colour">Green</ac:parameter>
+  <ac:parameter ac:name="title">ON TRACK</ac:parameter>
+</ac:structured-macro>
+```
+Colours: Green, Blue, Yellow, Red, Grey. Use `subtle=true` for softer look.
 
 ### Panel Macro
 ```xml
@@ -635,26 +562,6 @@ Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (
   <ac:rich-text-body><p>Content</p></ac:rich-text-body>
 </ac:structured-macro>
 ```
-
-### Status Lozenge
-```xml
-<ac:structured-macro ac:name="status" ac:schema-version="1" ac:macro-id="UUID">
-  <ac:parameter ac:name="subtle">true</ac:parameter>
-  <ac:parameter ac:name="colour">Green</ac:parameter>
-</ac:structured-macro>
-```
-Colours: Green, Blue, Yellow, Red, Grey. Use `subtle=true` for a softer look.
-
-### Layout (Two-Column with Sidebar)
-```xml
-<ac:layout>
-  <ac:layout-section ac:type="two_right_sidebar">
-    <ac:layout-cell><!-- Main content --></ac:layout-cell>
-    <ac:layout-cell><!-- Sidebar --></ac:layout-cell>
-  </ac:layout-section>
-</ac:layout>
-```
-Types: `single`, `two_equal`, `two_right_sidebar`, `two_left_sidebar`, `three_equal`
 
 ### UI Tabs
 ```xml
@@ -669,41 +576,32 @@ Types: `single`, `two_equal`, `two_right_sidebar`, `two_left_sidebar`, `three_eq
 ```
 Parameter is `title` (NOT `name`).
 
+### Layout (Two-Column with Sidebar)
+```xml
+<ac:layout>
+  <ac:layout-section ac:type="two_right_sidebar">
+    <ac:layout-cell><!-- Main content --></ac:layout-cell>
+    <ac:layout-cell><!-- Sidebar --></ac:layout-cell>
+  </ac:layout-section>
+</ac:layout>
+```
+Types: `single`, `two_equal`, `two_right_sidebar`, `two_left_sidebar`, `three_equal`
+
+### Colored Table Cell Header (for agendas)
+```xml
+<table class="wrapped" style="width: 100%;">
+  <tbody><tr><td style="background-color: #0052cc; color: #FFFFFF;">
+    <strong>Section Title</strong>
+  </td></tr></tbody>
+</table>
+```
+
 ### UI Button
 ```xml
 <ac:structured-macro ac:name="ui-button" ac:schema-version="1" ac:macro-id="UUID">
   <ac:parameter ac:name="color">blue</ac:parameter>
   <ac:parameter ac:name="title">Button Title</ac:parameter>
   <ac:parameter ac:name="url">https://wiki.cfdata.org/...</ac:parameter>
-</ac:structured-macro>
-```
-
-### Expand Macro
-```xml
-<ac:structured-macro ac:name="expand" ac:schema-version="1" ac:macro-id="UUID">
-  <ac:parameter ac:name="title">Click to Expand</ac:parameter>
-  <ac:rich-text-body><p>Content</p></ac:rich-text-body>
-</ac:structured-macro>
-```
-
-### Style Macro (CSS)
-```xml
-<ac:structured-macro ac:name="style" ac:schema-version="1" ac:macro-id="UUID">
-  <ac:plain-text-body><![CDATA[
-    #grad1 { background: linear-gradient(145deg, #1c5e98, #206db1, #2885d7); padding: 1em; }
-  ]]></ac:plain-text-body>
-</ac:structured-macro>
-```
-
-### Table Filter (Stiltsoft)
-```xml
-<ac:structured-macro ac:name="table-filter">
-  <ac:rich-text-body>
-    <table><tbody>
-      <tr><th>Col1</th><th>Col2</th></tr>
-      <tr><td>Data</td><td>Data</td></tr>
-    </tbody></table>
-  </ac:rich-text-body>
 </ac:structured-macro>
 ```
 
@@ -718,9 +616,13 @@ Parameter is `title` (NOT `name`).
 </ac:structured-macro>
 ```
 
-### Children Macro (used on Notes page)
+### Style Macro (CSS)
 ```xml
-<ac:structured-macro ac:name="children" ac:schema-version="2" ac:macro-id="UUID" />
+<ac:structured-macro ac:name="style" ac:schema-version="1" ac:macro-id="UUID">
+  <ac:plain-text-body><![CDATA[
+    #grad1 { background: linear-gradient(145deg, #1c5e98, #206db1, #2885d7); padding: 1em; }
+  ]]></ac:plain-text-body>
+</ac:structured-macro>
 ```
 
 ---
@@ -729,16 +631,19 @@ Parameter is `title` (NOT `name`).
 
 - **Storage format = editable**. Rendered HTML = locked editor.
 - **Jira macros**: parameter is `jqlQuery` (not `jql`), need both `server` and `serverId`, plus `ac:schema-version` and `ac:macro-id`
-- **UI tabs**: parameter is `title` (not `name`), need `ac:schema-version` and `ac:macro-id`
+- **UI tabs**: parameter is `title` (not `name`)
 - **UI button**: `color` is `blue` (not rgb), `url` (not `link`), no `textColor`
-- **Always validate XML tag balance** before creating — mismatched tags cause API errors
 - **Always fetch current version right before PUT** — pages change between fetches
 - **When replacing sections**, use `find()` for the first closing tag, not `rfind()`
 - **No nested panels** when replacing content inside an existing panel
-- **Tool path corruption**: use `w"iki"` in URLs, use `/Users/tianaegidi/` instead of `/tmp/`
+- **Agenda pages**: NO `ac:layout` macros (locks editor), NO panel macros for headers, NO expand macros for discussion items
+- **Agenda colored headers**: use inline `style="background-color"` NOT `highlight-#color` class
+- **Status report pages**: `ac:layout` with `two_right_sidebar` is OK (not edited live)
+- **Stiltsoft Table Chart** does NOT work with Jira macros in cells — don't use it
+- **Confluence `position` parameter** does NOT reliably reorder child pages — must drag in UI
+- **Tool path corruption**: use Python `requests` instead of curl, use `/Users/tianaegidi/` instead of `/tmp/`
 - **Verify Jira URLs** — `issues` can lose the `u` becoming `isses`
 - **Decision log entries are immutable** — if reversed, add a new entry with SUPERSEDED status
 - **Hub page sync** after every status update, agenda, or decision log entry
-- **Layout macros** (`ac:layout`) are used on all 5 pages — be careful with closing tags when editing
 - **Q1 Update page** uses orange gradient; hub page uses blue gradient — don't mix them up
-- **Status update pages** use `two_right_sidebar` layout; agenda pages use `two_equal` layout
+- **Percentages are hardcoded** with "Last calculated" date since Confluence Jira macros can't do math
