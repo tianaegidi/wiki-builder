@@ -45,7 +45,7 @@ def jira_count(jql):
 | Completed | `labels = ThreatFocusedControl and status in (Done, Closed, Cancelled)` |
 | In Progress | `labels = ThreatFocusedControl and status = "In Progress"` |
 | Blocked | `labels = ThreatFocusedControl and status in (Blocked)` |
-| Unassigned | `labels = ThreatFocusedControl and assignee = EMPTY` |
+| Unassigned | `project = GRC AND labels = ThreatFocusedControl AND status NOT IN (Done, Cancelled) AND assignee = EMPTY` |
 
 ### Per-Threat-Model JQL
 

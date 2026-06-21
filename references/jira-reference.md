@@ -83,7 +83,7 @@ Total:       labels = ThreatFocusedControl
 Completed:   labels = ThreatFocusedControl AND status in (Done, Closed, Cancelled)
 In Progress: labels = ThreatFocusedControl AND status = "In Progress"
 Blocked:     labels = ThreatFocusedControl AND status in (Blocked)
-Unassigned:  labels = ThreatFocusedControl AND assignee = EMPTY
+Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (Done, Cancelled) AND assignee = EMPTY
 Open:        labels = ThreatFocusedControl and status not in (Done, Cancelled)
 ```
 
