@@ -40,11 +40,11 @@ decision log tracking.
 
 | Page | ID | Purpose |
 |------|-----|---------|
-| TFD Program Hub [draft] | `1424133824` | Main landing page with 7 tabs (blue theme) |
+| TFD Program Hub | `1276292540` | Main landing page with 8 tabs (blue theme) |
 | Q1 Update | `1346668357` | Quarterly briefing (orange theme, 9 tabs) |
 | Project Management Plan | `1419363218` | TPM tracker (two-column w/ sidebar) |
 | TFD Status Updates 2026 | `1424137842` | Index for weekly agendas + status send-outs |
-| Notes | `1346668352` | Decision log & meeting notes (to be built out) |
+| Decision Log | `1346668352` | Decision log & meeting notes |
 
 ## Capabilities
 
@@ -114,11 +114,13 @@ Add a new action item to the PM Plan page: [action]. Owner: [name]. Due: [date]
 
 | Page | What it demonstrates |
 |---|---|
-| [TFD Program Hub](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424133824) | 7-tab landing page, threat models table with waves, 2x2 dashboard, handbook |
+| [TFD Program Hub](https://wiki.cfdata.org/spaces/INFOSEC/pages/1276292540) | 8-tab landing page, threat models table with waves, 2x2 dashboard, handbook |
 | [Q1 Update](https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668357) | 9-tab quarterly briefing, 59 Jira links, orange theme |
 | [PM Plan](https://wiki.cfdata.org/spaces/INFOSEC/pages/1419363218) | Two-column TPM tracker, ticket tracking, people management |
 | [6/17/26 Agenda](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137886) | Two-column weekly agenda with status, artifacts, and agenda table |
 | [6/19/26 Status](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424152018) | Two-column status update with 24 JQL queries, exec summary, wins/concerns |
+| [6/26/26 Agenda](https://wiki.cfdata.org/spaces/INFOSEC/pages/1424156221) | 6-section colored-header agenda, note-taking friendly |
+| [Decision Log](https://wiki.cfdata.org/spaces/INFOSEC/pages/1346668352) | 4 historical decisions with Notes column, immutability rules |
 
 ## Repository Map
 

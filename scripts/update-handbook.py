@@ -249,7 +249,7 @@ for line in (result.stdout + result.stderr).split('\n'):
 result = subprocess.run([
     'curl', '-s', '-k',
     '-H', f'cf-access-token: {token}',
-    'https://wiki.cfdata.org/rest/api/content/1424133824?expand=version'
+    'https://wiki.cfdata.org/rest/api/content/1276292540?expand=version'
 ], capture_output=True, text=True)
 current = json.loads(result.stdout)
 current_version = current['version']['number']
@@ -257,7 +257,7 @@ print(f'Current version: {current_version}')
 
 # Build payload and update
 payload = json.dumps({
-    'id': '1424133824',
+    'id': '1276292540',
     'type': 'page',
     'title': current['title'],
     'space': {'key': 'INFOSEC'},
@@ -275,7 +275,7 @@ result = subprocess.run([
     '-H', f'cf-access-token: {token}',
     '-H', 'X-Atlassian-Token: no-check',
     '-d', '@/tmp/wiki-update-payload.json',
-    'https://wiki.cfdata.org/rest/api/content/1424133824'
+    'https://wiki.cfdata.org/rest/api/content/1276292540'
 ], capture_output=True, text=True)
 
 resp_data = json.loads(result.stdout) if result.stdout else {}
