@@ -22,6 +22,45 @@ Four core tasks:
 2. **Python requests**: `pip3 install requests`
 3. **wikigen-generic.sh**: `~/wikigen-generic.sh` must exist and be executable (alternative page creation method)
 
+### Optional: Google Drive Integration
+
+If the Google Workspace MCP server is enabled (via opencode portal), this skill can automatically search and read Gemini meeting notes from Google Drive. This is **optional** — the user can choose to use it or provide notes manually.
+
+**When to use Google Drive integration:**
+- User says "pull from my Gemini notes" or "check my Drive"
+- User wants the agenda/status update auto-populated from meeting notes
+- User references meeting notes without pasting content
+
+**When NOT to use (user provides input manually):**
+- User pastes notes directly in chat
+- User shares a Google Doc URL
+- User dictates what to include
+- Google Workspace MCP server is not available
+
+**How it works:**
+1. Search Google Drive for recent "Notes by Gemini" docs (filtered by date range and TFD-relevant keywords)
+2. Read each doc's content (converted to markdown)
+3. Parse out: decisions, action items, discussion topics, blockers, wins
+4. Filter out irrelevant content (transcript filler, Gemini boilerplate, non-TFD meetings)
+5. Combine with previous week's Confluence agenda for continuity
+6. Use extracted info to populate the new agenda or status update
+
+**Drive search patterns:**
+```
+"name contains 'Notes by Gemini'"           — all Gemini notes
+"name contains 'threat focused defense'"    — TFD-specific meetings
+"name contains 'TFD'"                       — TFD-tagged docs
+"name contains 'status'"                    — status review docs
+```
+
+**Parsing rules:**
+- Extract from Gemini "Summary", "Decisions", "Next steps", and "Details" sections
+- Ignore transcript section (too verbose, mostly filler)
+- Ignore Gemini boilerplate (surveys, "review notes" disclaimers)
+- Map action items to agenda "Next Steps" section
+- Map decisions to Decision Log entries
+- Map discussion topics to agenda "Discussion Items" section
+
 ## Tool Bug Workarounds
 
 - `wiki` → `iki` in bash — use `w"iki"` in URLs or use Python `requests` instead
@@ -398,11 +437,29 @@ parts.append('</ul>')
 
 ### Agenda Workflow
 
+**Option A — With Google Drive integration (automatic):**
+1. User says "draft this week's agenda" (optionally: "pull from my Gemini notes")
+2. Search Google Drive for recent Gemini notes since last meeting
+3. Fetch last week's agenda from Confluence for continuity
+4. Parse Gemini notes: extract decisions, action items, discussion topics, blockers, wins
+5. Build page body using the 6-section template, auto-populated with extracted info
+6. Create child page under `1424137842` (POST to API)
+7. Add link to index table on `1424137842` (Task 2)
+8. Present draft to user for review/editing before finalizing
+
+**Option B — Manual input (user provides content):**
 1. Ask user for: date, attendees, discussion items, wins, blockers, action items
 2. Build page body using the 6-section template above
 3. Create child page under `1424137842` (POST to API)
 4. Add link to index table on `1424137842` (Task 2)
 5. Log any decisions to Decision Log page `1346668352`
+
+**Option C — Hybrid (user provides some, skill pulls rest):**
+1. User provides partial info (e.g., "here are my discussion items: ...")
+2. Skill fetches last week's agenda + searches Drive for additional context
+3. Combines user input with auto-extracted info
+4. Creates the agenda page
+5. User reviews and edits
 
 ---
 
@@ -495,6 +552,18 @@ Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (
 
 ### Status Report Workflow
 
+**Option A — With Google Drive integration (automatic):**
+1. User says "create status update" (optionally: "pull from my Gemini notes")
+2. Fetch this week's filled-out agenda from Confluence (post-meeting notes)
+3. Search Google Drive for any new Gemini notes from the week
+4. Parse agenda + Gemini notes: extract wins, concerns, progress, metrics
+5. Fetch live Jira counts for all 8 threat models (or use Jira macros for live counts)
+6. Create child page under `1424137842` (POST to API)
+7. Add link to index table on `1424137842` — Friday Status Send-Out column (Task 2)
+8. Update hub page `1276292540` if needed (Task 1)
+9. Present draft to user for review before finalizing
+
+**Option B — Manual input (user provides content):**
 1. Ask user for: date, executive summary narrative, wins, concerns, overall status color
 2. Fetch live Jira counts for all 8 threat models (or use Jira macros for live counts)
 3. Create child page under `1424137842` (POST to API)
@@ -505,16 +574,49 @@ Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (
 
 ## Full Weekly Workflow
 
-### Monday (or day of sync)
-1. **Create weekly agenda** — child page under `1424137842`
-2. **Add row to index table** on `1424137842` (Weekly Meeting Agendas column)
-3. **Run the sync** using the agenda
-4. **Log decisions** to Decision Log page `1346668352`
+### Monday — Draft Agenda
 
-### Friday
-1. **Create status update** — child page under `1424137842`
-2. **Add row to index table** on `1424137842` (Friday Status Send-Outs column)
-3. **Update hub page** `1276292540` if needed
+**With Google Drive:**
+1. Search Drive for recent Gemini notes since last meeting
+2. Fetch last week's agenda from Confluence for continuity
+3. Auto-populate agenda draft from parsed notes (decisions, actions, discussion items)
+4. Create agenda page under `1424137842`
+5. Add row to index table (Weekly Meeting Agendas column)
+
+**Without Google Drive:**
+1. Ask user for discussion items, wins, blockers, action items
+2. Create agenda page under `1424137842`
+3. Add row to index table (Weekly Meeting Agendas column)
+
+### Wednesday — Mid-Week Check
+
+1. Fetch live Jira counts — flag new blockers or status changes
+2. Update PM Plan `1419363218` if new action items or people changes
+3. Optionally: search Drive for any new meeting notes since Monday
+
+### Thursday — Finalize Agenda
+
+1. User reviews draft agenda and adds/edits content
+2. Update agenda page with any changes
+3. Optionally: pull any new Gemini notes from Wednesday/Thursday meetings
+
+### Friday — Status Update (Post-Meeting)
+
+**With Google Drive:**
+1. Fetch this week's filled-out agenda from Confluence (post-meeting notes)
+2. Search Drive for any new Gemini notes from the week
+3. Auto-extract wins, concerns, progress from agenda + notes
+4. Create status update page under `1424137842`
+5. Add row to index table (Friday Status Send-Outs column)
+6. Update hub page `1276292540` if needed
+7. Draft next week's agenda shell
+
+**Without Google Drive:**
+1. Ask user for executive summary, wins, concerns, status color
+2. Create status update page under `1424137842`
+3. Add row to index table (Friday Status Send-Outs column)
+4. Update hub page `1276292540` if needed
+5. Draft next week's agenda shell
 
 ### End of Month
 1. Generate executive summary (can be a tab on the status update)
