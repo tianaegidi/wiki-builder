@@ -196,9 +196,108 @@ new_page_id = resp.json()['id']
 ### Critical Rules
 - **Storage Format Only** — never use rendered HTML (locks the editor)
 - **Always fetch version right before PUT** — pages change between fetches
-- **Use `find()` not `rfind()`** for the first closing tag when replacing sections
-- **No nested panels** when replacing content inside an existing panel
 - **Validate XML tag balance** before creating — mismatched tags cause API errors
+
+---
+
+## Editing Approach: Choose Before You Start
+
+Confluence's REST API only supports full-body PUT — there is no "update this section" endpoint. So the workflow is always: **GET body → modify → PUT body**. The question is *how* to modify. Always ask the user which approach they prefer:
+
+### Option A: Full Rewrite
+
+Rewrite the entire page body from scratch as a single XHTML string, then PUT it.
+
+```
+User says: "rebuild the agenda" or "restructure the page"
+→ Fetch page (for version number only)
+→ Build new body string from template
+→ PUT with version + 1
+```
+
+**Best for:** Initial page creation, major restructuring, adding/removing entire sections, when the page is small or freshly created.
+
+**Pros:**
+- Full control over output — clean, predictable structure
+- Can restructure anything (move sections, change table columns, swap layouts)
+- Simple to reason about — you see the entire result
+
+**Cons:**
+- Fragile — one typo in a 15KB+ string can break the whole page
+- Loses existing macro IDs, inline edits, and formatting nuances others may have made
+- Not idempotent — re-running the same update produces different macro IDs
+- Hard to diff — you can't easily see what actually changed vs. what was rewritten
+- Risky if someone else edited the page since you last fetched it
+
+### Option B: Targeted Edit (In-Place)
+
+Fetch the existing body, parse it as XML, find the specific element(s) to modify, update just those nodes, serialize back, and PUT.
+
+```
+User says: "update the status to green" or "add a row to the next steps table"
+→ Fetch page (for body + version)
+→ Parse body as XML tree
+→ Find target element (by text content, position, or structure)
+→ Modify/insert/replace just that element
+→ Serialize back to string
+→ PUT with version + 1
+```
+
+**Best for:** Updating a few cells, changing status lozenges, adding table rows, updating text content, fixing typos, when others may have edited the page.
+
+**Pros:**
+- Preserves all existing content, macro IDs, formatting, and others' edits
+- Safe for small changes — you only touch what you need
+- Easy to diff — only the targeted element changed
+- Re-runnable without side effects
+
+**Cons:**
+- More complex code — need to parse and navigate XML tree
+- Requires understanding the existing page structure
+- Harder for major restructuring (moving sections, changing table columns)
+
+### When to Use Which
+
+| Scenario | Approach |
+|----------|----------|
+| Creating a new page | A (Full Rewrite) — no existing body to preserve |
+| Restructuring a page (new sections, new table columns) | A (Full Rewrite) |
+| Updating status lozenges or text in specific cells | B (Targeted Edit) |
+| Adding a row to an existing table | B (Targeted Edit) |
+| Fixing a typo or updating a date | B (Targeted Edit) |
+| Rebuilding a corrupted page | A (Full Rewrite) |
+| Updating the Progress Panel percentages | B (Targeted Edit) — preserve the finalized design |
+| Adding/removing discussion items from an agenda | B (Targeted Edit) — preserve meeting notes already added |
+
+### Targeted Edit Helper Script
+
+A reusable helper (`scripts/confluence_edit.py`) provides functions for common in-place edits:
+
+```python
+from confluence_edit import ConfluencePage
+
+page = ConfluencePage('1424156221')  # fetches body + version
+
+# Update a table cell by matching row header text
+page.update_cell(row_header="Overall status", new_content="GREEN — on track")
+
+# Add a row to a table (by matching a header cell)
+page.add_table_row(after_header="Action item", cells=["New item", "Tiana", "Jul 1", lozenge])
+
+# Replace text anywhere in the body
+page.replace_text("old text", "new text")
+
+# Update a status lozenge by its current title
+page.update_lozenge(old_title="AT RISK", new_color="Green", new_title="ON TRACK")
+
+# Add a bullet to a list after a specific item
+page.add_bullet_after(match_text="Existing item", new_item="New item")
+
+# Push changes
+page.save()
+```
+
+See `scripts/confluence_edit.py` for the full implementation.
 
 ---
 
