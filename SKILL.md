@@ -1,6 +1,6 @@
 ---
 name: wiki-builder
-description: All-in-one program management skill for the Threat-Focused Defense (TFD) program on wiki.cfdata.org. Manages 5 specific wiki pages — the program hub, Q1 update, project management plan, status updates, and notes/decision log. Creates and edits pages, generates weekly agendas and status updates, maintains the hub page, and tracks decisions. Use when the user mentions TFD, Threat-Focused Defense, wiki.cfdata.org TFD pages, weekly agenda, status update, decision log, or any of the 5 program pages.
+description: All-in-one program management skill for the Threat-Focused Defense (TFD) program on wiki.cfdata.org. Manages 5 specific wiki pages — the program hub, Q1 update, project management plan, status updates, and notes/decision log. Creates and edits pages, generates weekly agendas, weekly status updates, and bi-weekly status pages, maintains the hub page, and tracks decisions. Use when the user mentions TFD, Threat-Focused Defense, wiki.cfdata.org TFD pages, weekly agenda, status update, bi-weekly status, decision log, or any of the 5 program pages.
 ---
 
 # TFD Program Wiki Builder
@@ -9,12 +9,13 @@ Reliable tool for managing the **Threat-Focused Defense (TFD)** program's Conflu
 
 ## What This Skill Does
 
-Four core tasks:
+Five core tasks:
 
 1. **Keep the Program Hub updated** — page ID `1276292540`
 2. **Keep the Status Updates index updated** — page ID `1424137842`
 3. **Create weekly agendas** — child pages under the index
 4. **Create weekly status reports** — child pages under the index
+5. **Create bi-weekly status pages** — child pages under the index (every other Tuesday)
 
 ## Prerequisites
 
@@ -91,7 +92,8 @@ Threat-focused Defense (1276292540) ← Program Hub (LIVE)
 ├── TFD Status Updates 2026 (1424137842) ← Index page
 │   ├── 6/17/26 TFD Weekly Agenda (1424137886)
 │   ├── 6/19/26 Status Update (1424152018)
-│   └── 6/26/26 TFD Weekly Agenda (1424156221)
+│   ├── 6/26/26 TFD Weekly Agenda (1424156221)
+│   └── 6/26/26 Bi-Weekly Status (1427833642)
 └── TFD Program [draft] (1424133824) ← OLD DRAFT, content moved to hub
 ```
 
@@ -356,15 +358,15 @@ Only update: percentage value, JQL queries, and last-calculated date.
 
 ### Index Table Structure
 
-The index page has a 2-column table:
+The index page has a 3-column table:
 
-| Weekly Meeting Agendas | Friday Status Send-Outs |
-|----------------------|----------------------|
-| [Links to agenda pages] | [Links to status pages] |
+| Weekly Meeting Agenda | Friday Status Send-Out | Bi-Weekly Status |
+|----------------------|----------------------|-----------------|
+| [Links to agenda pages] | [Links to status pages] | [Links to bi-weekly status pages] |
 
 ### Adding a Row
 
-When a new agenda or status update is created, add a link to the appropriate column:
+When a new agenda, status update, or bi-weekly status is created, add a link to the appropriate column:
 
 ```python
 # Fetch the index page
@@ -375,8 +377,9 @@ body = data['body']['storage']['value']
 version = data['version']['number']
 
 # Add link to the appropriate column
-# For agendas: add <p><a href="URL">Title</a></p> inside the first <td>
-# For status updates: add <p><a href="URL">Title</a></p> inside the second <td>
+# For agendas: add <a> inside the first <td>
+# For status updates: add <ac:link> inside the second <td>
+# For bi-weekly status: add <ac:link> inside the third <td>
 
 # PUT update with version + 1
 ```
@@ -386,17 +389,23 @@ version = data['version']['number']
 If the table gets corrupted or needs a full rebuild:
 
 ```python
-new_body = '<table class="wrapped"><colgroup><col /><col /></colgroup><tbody>'
-new_body += '<tr><th scope="col">Weekly Meeting Agendas</th><th scope="col">Friday Status Send-Outs</th></tr>'
+new_body = '<table class="wrapped"><colgroup><col /><col /><col /></colgroup><tbody>'
 new_body += '<tr>'
-new_body += '<td>'
-new_body += '<p><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137886">6/17/26 TFD Weekly Agenda</a></p>'
-new_body += '<p><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424156221">6/26/26 TFD Weekly Agenda</a></p>'
-new_body += '</td>'
-new_body += '<td>'
-new_body += '<p><ac:link><ri:page ri:content-title="6/19/26 Status Update" /></ac:link></p>'
-new_body += '</td>'
-new_body += '</tr></tbody></table><p><br /></p>'
+new_body += '<th scope="col">Weekly Meeting Agenda</th>'
+new_body += '<th scope="col">Friday Status Send-Out</th>'
+new_body += '<th scope="col">Bi-Weekly Status</th>'
+new_body += '</tr>'
+new_body += '<tr>'
+new_body += '<td><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424137886">5/17/26 TFD Weekly Agenda</a></td>'
+new_body += '<td><ac:link><ri:page ri:content-title="6/19/26 Status Update" /></ac:link></td>'
+new_body += '<td><ac:link><ri:page ri:content-title="6/26/26 Bi-Weekly Status" /></ac:link></td>'
+new_body += '</tr>'
+new_body += '<tr>'
+new_body += '<td><a href="https://wiki.cfdata.org/spaces/INFOSEC/pages/1424156221">6/26/26 TFD Weekly Agenda</a></td>'
+new_body += '<td><br /></td>'
+new_body += '<td><br /></td>'
+new_body += '</tr>'
+new_body += '</tbody></table><p><br /></p>'
 ```
 
 ---
@@ -671,6 +680,94 @@ Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (
 
 ---
 
+## Task 5: Bi-Weekly Status Creation
+
+### Purpose
+
+Bi-weekly status meetings are **status updates for the team**, not agenda-driven discussion meetings. They keep everyone informed of the current program state at a high level. The page is intentionally concise — anyone should be able to read it in under 30 seconds.
+
+### Naming Convention
+`[M/D/YY] Bi-Weekly Status` (e.g., "6/26/26 Bi-Weekly Status")
+
+### Parent Page
+`1424137842` (TFD Status Updates 2026)
+
+### Cadence
+Every other Tuesday. (First meeting was Friday 6/26/26 as an exception.)
+
+### Content Source
+Pull from the most recent Friday Status Send-Out(s). The bi-weekly status is a **high-level summary** of what's in the Friday send-out — not a duplicate. Strip out detailed tables, per-threat-model breakdowns, and remediation charts. Keep only the program-level view.
+
+### Design Rules
+
+- **Simple panels only** — no `ac:layout`, no two-column layouts, no sidebar
+- **4 panels max** — Program Status, Progress, Focus, Risks
+- **Bullet lists, not tables** — keep it scannable
+- **No Jira macros** — this is a static snapshot, not a live dashboard
+- **Keep it brief** — 3-5 bullets per panel max, no lengthy descriptions
+- **High-level language** — avoid Jira-specific jargon, ticket IDs, or deep technical details
+
+### Page Structure (4 Panels)
+
+```python
+parts = []
+
+# Panel 1: Program Status (red)
+parts.append(panel(
+    title="Program Status",
+    title_bg="#DE350B", border="#DE350B", bg="#ffe6e6",
+    content=f'<p>{lozenge("Red", "OFF TRACK")} Off-Track — improving. [1-2 sentence summary]</p>'
+))
+
+# Panel 2: Progress Since Last Meeting (green)
+parts.append(panel(
+    title="Progress Since Last Meeting",
+    title_bg="#36B37E", border="#36B37E", bg="#e6f7ef",
+    content='<ul><li>[3-5 high-level bullets]</li></ul>'
+))
+
+# Panel 3: Focus for Next 2 Weeks (blue)
+parts.append(panel(
+    title="Focus for Next 2 Weeks",
+    title_bg="#0052cc", border="#0052cc", bg="#f0f4ff",
+    content='<ul><li>[3-4 priority bullets]</li></ul>'
+))
+
+# Panel 4: Key Risks (orange)
+parts.append(panel(
+    title="Key Risks",
+    title_bg="#FF8B00", border="#FF8B00", bg="#fff4e6",
+    content='<ul><li>[1-2 critical risks only]</li></ul>'
+))
+```
+
+### What NOT to Include
+
+- Per-threat-model Jira count tables
+- Remediation tracking charts
+- Detailed action item tables with owners and due dates
+- Discussion items or meeting notes
+- Parking lot items
+- Project artifacts links
+
+### Bi-Weekly Status Workflow
+
+1. User says "create bi-weekly status"
+2. Fetch the most recent Friday Status Send-Out from Confluence
+3. Extract: overall status color, executive summary, major wins, attention items, next steps
+4. Summarize into 4 concise panels (high-level, team-facing)
+5. Create child page under `1424137842` (POST to API)
+6. Add link to index table on `1424137842` — Bi-Weekly Status column (Task 2)
+7. Present draft to user for review — user will edit content
+
+### Current Bi-Weekly Status Pages
+
+| Page | ID | Date |
+|------|-----|------|
+| 6/26/26 Bi-Weekly Status | `1427833642` | Jun 26, 2026 |
+
+---
+
 ## Full Weekly Workflow
 
 ### Monday — Draft Agenda
@@ -721,6 +818,13 @@ Unassigned:  project = GRC AND labels = ThreatFocusedControl AND status NOT IN (
 1. Generate executive summary (can be a tab on the status update)
 2. Review decision log — mark any superseded decisions
 3. Update PM Plan `1419363218` with monthly metrics
+
+### Bi-Weekly (Every Other Tuesday)
+1. Fetch the most recent Friday Status Send-Out from Confluence
+2. Summarize into 4 concise panels (Program Status, Progress, Focus, Risks)
+3. Create bi-weekly status page under `1424137842`
+4. Add link to index table (Bi-Weekly Status column)
+5. Present draft to user for review — user will edit content
 
 ### End of Quarter
 1. Update Q1 Update page `1346668357` (or create Q2/Q3/Q4 equivalent)
