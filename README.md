@@ -1,6 +1,6 @@
 ---
-name: wiki-builder
-title: TFD Program Wiki Builder
+name: TFD Program Skill
+title: TFD ProgramSkill
 description: >-
   All-in-one program management skill for the Threat-Focused Defense (TFD) program on
   wiki.cfdata.org. Manages 5 specific wiki pages — program hub, Q1 update, project
